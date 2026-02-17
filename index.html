@@ -2,309 +2,244 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>VILL: Semiconductor War Room</title>
+  <title>VILL: Ultimate War Room</title>
+  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
   
-  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-  <script src="https://unpkg.com/aframe-environment-component@1.3.2/dist/aframe-environment-component.min.js"></script>
-  <script src="https://unpkg.com/aframe-orbit-controls@1.3.0/dist/aframe-orbit-controls.min.js"></script>
-
   <style>
-    /* 引入科幻字體 */
-    @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap');
+    /* 引入現代字體 */
+    @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Inter:wght@300;400&display=swap');
     
-    body { margin: 0; overflow: hidden; background: #000; font-family: 'Rajdhani', sans-serif; }
+    body { margin: 0; overflow: hidden; background: #111; font-family: 'Inter', sans-serif; }
 
-    /* === UI 層 (HUD) === */
+    /* === UI 層 === */
     #ui-layer {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; /* 讓點擊穿透 */
       z-index: 999;
+      display: flex; flex-direction: column; justify-content: space-between;
     }
 
-    /* 頂部標題欄 */
-    .top-hud {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 40px;
-      background: linear-gradient(180deg, rgba(0, 10, 20, 0.9) 0%, transparent 100%);
-      border-bottom: 1px solid rgba(0, 243, 255, 0.3);
+    /* 頂部標題 */
+    .header-bar {
+      padding: 20px 30px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+      border-bottom: 1px solid rgba(0, 255, 204, 0.3);
+      display: flex; justify-content: space-between; align-items: center;
     }
-    .project-title {
-      color: #00f3ff;
-      font-size: 32px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-shadow: 0 0 10px rgba(0, 243, 255, 0.8);
-    }
-    .system-status {
-      font-family: 'Share Tech Mono', monospace;
-      color: #00ff9d;
-      font-size: 14px;
-      border: 1px solid #00ff9d;
-      padding: 5px 10px;
-      border-radius: 4px;
-      animation: blink 2s infinite;
-    }
+    .title { font-family: 'Rajdhani', sans-serif; font-size: 28px; font-weight: bold; color: #00ffcc; letter-spacing: 2px; text-shadow: 0 0 10px rgba(0,255,204,0.5); }
+    .status { font-family: 'Rajdhani'; color: white; border: 1px solid #555; padding: 5px 15px; border-radius: 20px; font-size: 14px; background: rgba(0,0,0,0.5); }
 
-    /* 右側懸浮資料卡 */
-    #info-card {
-      position: absolute;
-      top: 15%; right: 30px;
-      width: 350px;
-      background: rgba(12, 20, 35, 0.85); /* 深藍半透明 */
-      backdrop-filter: blur(12px); /* 毛玻璃效果 */
-      border: 1px solid rgba(0, 243, 255, 0.5);
-      border-left: 6px solid #00f3ff;
-      border-radius: 0 10px 10px 0;
+    /* 右側資料面板 (互動跳出) */
+    #info-panel {
+      position: absolute; top: 15%; right: 30px;
+      width: 340px;
+      background: rgba(15, 23, 30, 0.95);
+      border: 1px solid #333;
+      border-left: 4px solid #00ffcc;
+      box-shadow: -10px 10px 40px rgba(0,0,0,0.8);
       padding: 25px;
-      color: #fff;
-      transform: translateX(120%); /* 預設隱藏 */
-      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-      pointer-events: auto; /* 允許滑鼠互動 */
-      box-shadow: -10px 10px 40px rgba(0, 0, 0, 0.6);
-    }
-    #info-card.active { transform: translateX(0); }
-
-    .card-header {
-      display: flex; align-items: center; gap: 15px;
-      margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);
-      padding-bottom: 15px;
-    }
-    .card-icon {
-      width: 50px; height: 50px;
-      background: linear-gradient(135deg, #00f3ff, #0066ff);
+      color: white;
+      transform: translateX(130%); /* 隱藏 */
+      transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+      pointer-events: auto; /* 允許點擊 */
       border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 24px; font-weight: bold; color: #000;
-      box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
     }
-    .card-title { font-size: 24px; font-weight: 700; color: #fff; line-height: 1.1; }
-    
-    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-    .stat-box { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 6px; }
-    .stat-label { font-size: 12px; color: #8899a6; text-transform: uppercase; font-family: 'Share Tech Mono'; }
-    .stat-value { font-size: 16px; color: #00f3ff; font-weight: bold; margin-top: 5px; }
-    
-    .card-desc { font-size: 14px; line-height: 1.6; color: #ccd; border-top: 1px dashed #444; padding-top: 15px; }
+    #info-panel.active { transform: translateX(0); }
 
-    /* 底部控制提示 */
-    .controls {
-      text-align: center; padding: 20px;
-      background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 100%);
-      color: #667; font-family: 'Share Tech Mono'; font-size: 12px;
-    }
+    .panel-head { font-family: 'Rajdhani'; font-size: 24px; color: #00ffcc; margin-bottom: 15px; border-bottom: 1px solid #444; padding-bottom: 10px; }
+    .panel-body { font-size: 14px; line-height: 1.6; color: #ccc; }
+    .stat-tag { display: inline-block; background: rgba(0, 255, 204, 0.15); color: #00ffcc; padding: 3px 8px; border-radius: 4px; font-size: 12px; margin-bottom: 8px; font-weight: bold; }
 
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    /* 底部提示 */
+    .footer { text-align: center; padding: 15px; background: linear-gradient(0deg, rgba(0,0,0,0.9), transparent); color: #888; font-size: 13px; font-family: 'Rajdhani'; letter-spacing: 1px; }
 
-    /* 載入失敗的備用提示 */
-    #error-overlay {
-      position: absolute; top:0; left:0; width:100%; height:100%;
-      background: rgba(0,0,0,0.9); display: none;
-      justify-content: center; align-items: center; flex-direction: column;
-      color: white; z-index: 1000;
-    }
+    /* 錯誤提示 */
+    #error-box { position: absolute; top:50%; left:50%; transform:translate(-50%, -50%); background:rgba(200,0,0,0.9); padding:30px; color:white; display:none; pointer-events:auto; text-align:center; border-radius:8px; }
   </style>
 </head>
 
 <body>
-
-  <div id="error-overlay">
-    <h2>MISSING MAP TEXTURE</h2>
-    <p>Please ensure <b>map.jpg</b> is in the same folder.</p>
-    <button onclick="location.reload()" style="padding:10px 20px; margin-top:10px; cursor:pointer;">RETRY SYSTEM</button>
+  
+  <div id="error-box">
+    <h3>MISSING MAP.JPG</h3>
+    <p>請確認資料夾內有 <b>map.jpg</b></p>
+    <button onclick="location.reload()" style="padding:10px 20px; cursor:pointer;">RETRY</button>
   </div>
 
   <div id="ui-layer">
-    <div class="top-hud">
-      <div class="project-title">VILL SYSTEM <span style="font-size:14px; opacity:0.6; margin-left:10px;">// SEMICONDUCTOR INTELLIGENCE</span></div>
-      <div class="system-status">● SYSTEM ONLINE</div>
-    </div>
-    
-    <div id="info-card">
-      <div class="card-header">
-        <div class="card-icon" id="c-icon">S</div>
-        <div class="card-title" id="c-title">SAMSUNG<br>CLUSTER</div>
-      </div>
-      <div id="c-content"></div>
+    <div class="header-bar">
+      <div class="title">VILL STRATEGY ROOM</div>
+      <div class="status">● SIMULATION LIVE</div>
     </div>
 
-    <div class="controls">
-      [ MOUSE LEFT ] ROTATE VIEW &nbsp;&nbsp; [ SCROLL ] ZOOM &nbsp;&nbsp; [ CLICK PINS ] ANALYZE DATA
+    <div id="info-panel">
+      <div class="panel-head" id="p-title">Data Node</div>
+      <div class="panel-body" id="p-content">Waiting for input...</div>
+    </div>
+
+    <div class="footer">
+      [ 左鍵 ] 旋轉視角 &nbsp;•&nbsp; [ 滾輪 ] 縮放 &nbsp;•&nbsp; [ 右鍵 ] 平移 &nbsp;•&nbsp; [ 點擊 ] 互動
     </div>
   </div>
 
-  <a-scene renderer="antialias: true; colorManagement: true; physicallyCorrectLights: true;" cursor="rayOrigin: mouse" raycaster="objects: .clickable">
-    
+  <a-scene 
+    renderer="antialias: true; colorManagement: true; physicallyCorrectLights: true; exposure: 1.2;" 
+    cursor="rayOrigin: mouse" 
+    raycaster="objects: .clickable">
+
     <a-assets>
-      <img id="map-tex" src="./map.jpg" onerror="document.getElementById('error-overlay').style.display='flex'">
+      <img id="map-tex" src="./map.jpg" onerror="document.getElementById('error-box').style.display='block'">
+      <canvas id="floorCanvas" width="512" height="512"></canvas>
     </a-assets>
 
-    <a-entity environment="preset: tron; skyType: atmosphere; lighting: none; groundColor: #0a101a; gridColor: #00f3ff;"></a-entity>
+    <a-plane position="0 0 0" rotation="-90 0 0" width="30" height="30" material="src: #floorCanvas; roughness: 0.2; metalness: 0.3; color: #444"></a-plane>
+    <a-plane position="0 6 0" rotation="90 0 0" width="30" height="30" color="#222"></a-plane>
+    <a-box position="0 3 -10" width="30" height="6" depth="0.5" color="#333"></a-box> <a-box position="-10 3 0" width="0.5" height="6" depth="30" color="#2a2a2a"></a-box> <a-box position="10 3 0" width="0.5" height="6" depth="30" color="#2a2a2a"></a-box> <a-box position="0 3 10" width="30" height="6" depth="0.5" color="#333"></a-box> <a-box position="0 4 -9.7" width="20" height="0.1" depth="0.1" color="#00ffcc" material="emissive: #00ffcc; emissiveIntensity: 2"></a-box>
+    <a-box position="-9.7 4 0" width="0.1" height="0.1" depth="20" color="#00ffcc" material="emissive: #00ffcc; emissiveIntensity: 2"></a-box>
 
-    <a-light type="ambient" intensity="0.3"></a-light>
-    <a-light type="directional" position="5 10 7" intensity="1.2" color="#ffffff" castShadow="true"></a-light>
-    <a-light type="point" position="0 2 0" intensity="2" distance="10" color="#00f3ff"></a-light>
+    <a-light type="ambient" intensity="0.4" color="#ffffff"></a-light>
+    <a-light type="spot" position="0 8 0" target="#table-group" intensity="1.5" angle="45" penumbra="0.5" castShadow="true"></a-light>
+    <a-light type="point" position="5 3 -5" intensity="0.5" color="#0088ff"></a-light>
 
-    <a-entity camera orbit-controls="target: 0 0 0; minDistance: 2; maxDistance: 6; initialPosition: 0 3 4; enablePan: false;"></a-entity>
+    <a-entity id="table-group" position="0 0 0">
+      <a-cylinder position="0 0.8 0" radius="2" height="0.05" color="#111" material="roughness: 0.1; metalness: 0.5"></a-cylinder>
+      <a-torus position="0 0.8 0" rotation="90 0 0" radius="2" radius-tubular="0.02" color="#00ffcc" material="emissive: #00ffcc; emissiveIntensity: 1"></a-torus>
+      <a-cylinder position="0 0.4 0" radius="0.6" height="0.8" color="#222" material="metalness: 0.6"></a-cylinder>
+      <a-cylinder position="0 0.02 0" radius="1.2" height="0.05" color="#111"></a-cylinder>
+    </a-entity>
 
-    <a-entity position="0 0 0">
+    <a-entity id="flat-map" position="0 0.84 0.5" rotation="-90 0 0">
+      <a-plane width="1.2" height="1.6" color="#fff"></a-plane>
+      <a-image src="#map-tex" width="1.1" height="1.5" position="0 0 0.01"></a-image>
+      <a-plane width="1.2" height="1.6" position="0 0 0.02" color="#00ffcc" opacity="0" class="clickable"
+               animation__hover="property: opacity; from: 0; to: 0.3; dur: 200; startEvents: mouseenter; pauseEvents: mouseleave"
+               onclick="activateHologram()">
+      </a-plane>
+      <a-text value="CLICK TO ACTIVATE" align="center" color="#00ffcc" position="0 0 0.05" scale="0.8 0.8 0.8"></a-text>
+    </a-entity>
+
+    <a-entity id="hologram-group" position="0 0.85 0" visible="false" scale="0 0 0">
       
-      <a-cylinder position="0 0.1 0" radius="1.6" height="0.2" color="#050a10" material="metalness:0.8; roughness:0.2"></a-cylinder>
-      <a-torus position="0 0.2 0" rotation="90 0 0" radius="1.6" radius-tubular="0.015" color="#00f3ff" material="emissive: #00f3ff; emissiveIntensity: 2"></a-torus>
-      
-      <a-entity position="0 0.25 0" rotation="-90 0 0">
+      <a-cylinder position="0 0 0" radius="1.8" height="0.02" color="#00ffcc" material="opacity: 0.1; transparent: true"></a-cylinder>
+      <a-ring position="0 0.01 0" rotation="-90 0 0" radius-inner="1.7" radius-outer="1.8" color="#00ffcc"></a-ring>
+
+      <a-entity position="0 0.3 0" rotation="-90 0 0">
+        <a-image src="#map-tex" width="2.4" height="2.4" material="opacity: 0.95"></a-image>
         
-        <a-image 
-          src="#map-tex" 
-          width="2.2" height="2.2" 
-          position="0 0 0.02"
-          material="opacity: 0.95; shader: standard; emissive: #ffffff; emissiveIntensity: 0.2">
-        </a-image>
-
-        <a-plane width="2.2" height="0.05" color="#00f3ff" opacity="0.2" position="0 0 0.05">
-           <a-animation attribute="position" from="0 -1 0.05" to="0 1 0.05" dur="4000" dir="alternate" repeat="indefinite" easing="linear"></a-animation>
+        <a-plane width="2.4" height="0.05" color="#00ffcc" opacity="0.4" position="0 -1 0.05">
+           <a-animation attribute="position" from="0 -1.2 0.05" to="0 1.2 0.05" dur="3000" dir="alternate" repeat="indefinite" easing="linear"></a-animation>
         </a-plane>
 
-
-        <a-entity position="-0.2 0.5 0.2" class="clickable pin" data-id="samsung">
-           <a-ring radius-inner="0.05" radius-outer="0.06" color="#ffffff">
-             <a-animation attribute="scale" to="2.5 2.5 1" dur="2000" repeat="indefinite"></a-animation>
-             <a-animation attribute="material.opacity" from="1" to="0" dur="2000" repeat="indefinite"></a-animation>
+        <a-entity position="-0.3 0.6 0.1" class="clickable pin" data-id="samsung">
+           <a-sphere radius="0.06" color="#ff0055" position="0 0 0.1"></a-sphere>
+           <a-cone radius-bottom="0.01" radius-top="0.06" height="0.2" color="#ff0055" rotation="90 0 0"></a-cone>
+           <a-ring radius-inner="0.06" radius-outer="0.08" color="#ff0055">
+             <a-animation attribute="scale" to="2 2 1" dur="1500" repeat="indefinite"></a-animation>
+             <a-animation attribute="material.opacity" from="1" to="0" dur="1500" repeat="indefinite"></a-animation>
            </a-ring>
-           <a-sphere radius="0.06" color="#ffffff" position="0 0 0.1"></a-sphere>
-           <a-cone radius-bottom="0.01" radius-top="0.06" height="0.2" color="#ffffff" rotation="90 0 0" position="0 0 0"></a-cone>
-           <a-text value="SAMSUNG" align="center" position="0 -0.15 0.3" scale="0.6 0.6 0.6" color="#ffffff" font="mozillavr"></a-text>
+           <a-text value="SAMSUNG" align="center" position="0 -0.15 0.3" scale="0.6 0.6 0.6" color="white"></a-text>
         </a-entity>
 
-        <a-entity position="0.3 0.1 0.2" class="clickable pin" data-id="nvidia">
-           <a-ring radius-inner="0.05" radius-outer="0.06" color="#76b900">
-             <a-animation attribute="scale" to="2.5 2.5 1" dur="2000" repeat="indefinite"></a-animation>
-             <a-animation attribute="material.opacity" from="1" to="0" dur="2000" repeat="indefinite"></a-animation>
-           </a-ring>
+        <a-entity position="0.3 0.1 0.1" class="clickable pin" data-id="nvidia">
            <a-sphere radius="0.06" color="#76b900" position="0 0 0.1"></a-sphere>
-           <a-cone radius-bottom="0.01" radius-top="0.06" height="0.2" color="#76b900" rotation="90 0 0" position="0 0 0"></a-cone>
-           <a-text value="NVIDIA" align="center" position="0 -0.15 0.3" scale="0.6 0.6 0.6" color="#76b900" font="mozillavr"></a-text>
+           <a-cone radius-bottom="0.01" radius-top="0.06" height="0.2" color="#76b900" rotation="90 0 0"></a-cone>
+           <a-text value="NVIDIA" align="center" position="0 -0.15 0.3" scale="0.6 0.6 0.6" color="white"></a-text>
         </a-entity>
 
-        <a-entity position="0.1 -0.5 0.2" class="clickable pin" data-id="intel">
-           <a-ring radius-inner="0.05" radius-outer="0.06" color="#0071c5">
-             <a-animation attribute="scale" to="2.5 2.5 1" dur="2000" repeat="indefinite"></a-animation>
-             <a-animation attribute="material.opacity" from="1" to="0" dur="2000" repeat="indefinite"></a-animation>
-           </a-ring>
+        <a-entity position="0.1 -0.5 0.1" class="clickable pin" data-id="intel">
            <a-sphere radius="0.06" color="#0071c5" position="0 0 0.1"></a-sphere>
-           <a-cone radius-bottom="0.01" radius-top="0.06" height="0.2" color="#0071c5" rotation="90 0 0" position="0 0 0"></a-cone>
-           <a-text value="INTEL" align="center" position="0 -0.15 0.3" scale="0.6 0.6 0.6" color="#0071c5" font="mozillavr"></a-text>
+           <a-cone radius-bottom="0.01" radius-top="0.06" height="0.2" color="#0071c5" rotation="90 0 0"></a-cone>
+           <a-text value="INTEL" align="center" position="0 -0.15 0.3" scale="0.6 0.6 0.6" color="white"></a-text>
         </a-entity>
 
       </a-entity>
     </a-entity>
+
+    <a-entity id="camera-rig" position="0 0 0" rotation="0 0 0">
+      <a-camera 
+        position="0 3 4.5" 
+        look-controls="enabled: true; pointerLockEnabled: false" 
+        wasd-controls="enabled: true; acceleration: 50">
+      </a-camera>
+    </a-entity>
+
   </a-scene>
 
   <script>
-    // 數據庫
+    // 1. 動態生成精緻地板紋理 (解決背景黑屏問題)
+    const canvas = document.getElementById('floorCanvas');
+    const ctx = canvas.getContext('2d');
+    // 底色
+    ctx.fillStyle = '#222';
+    ctx.fillRect(0,0,512,512);
+    // 木紋線條
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 2;
+    for(let i=0; i<512; i+=40) {
+        ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(512, i); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, 512); ctx.stroke();
+    }
+
+    // 2. 互動邏輯
+    const flatMap = document.getElementById('flat-map');
+    const hologram = document.getElementById('hologram-group');
+    const panel = document.getElementById('info-panel');
+    const pTitle = document.getElementById('p-title');
+    const pContent = document.getElementById('p-content');
+
+    // 點擊平面地圖 -> 開啟全息圖
+    window.activateHologram = function() {
+      // 隱藏平面
+      flatMap.setAttribute('visible', 'false');
+      // 顯示全息
+      hologram.setAttribute('visible', 'true');
+      // 動畫：彈出
+      hologram.setAttribute('animation', 'property: scale; from: 0 0 0; to: 1 1 1; dur: 1000; easing: easeOutBack');
+    };
+
+    // 資料庫
     const db = {
       samsung: {
-        title: 'SAMSUNG<br>NORTH CLUSTER',
-        icon: 'S',
-        html: `
-          <div class="stat-grid">
-            <div class="stat-box">
-              <div class="stat-label">INVESTMENT</div>
-              <div class="stat-value">$19.2 B</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-label">FOCUS</div>
-              <div class="stat-value">MOBILE/R&D</div>
-            </div>
-          </div>
-          <div class="card-desc">
-            全球最大手機生產基地 (Bac Ninh)。享有北越接近中國供應鏈的地理優勢，並擁有東南亞最大的研發中心。
-          </div>
-        `
+        title: 'SAMSUNG<br><span class="stat-tag">NORTH CLUSTER</span>',
+        html: '<b>Location:</b> Bac Ninh<br><b>Investment:</b> $19.2 Billion<br><b>Focus:</b> Mobile Assembly & R&D<br><br>全球最大的三星手機製造基地，位於北越電子供應鏈核心。'
       },
       nvidia: {
-        title: 'NVIDIA<br>CENTRAL HUB',
-        icon: 'N',
-        html: `
-          <div class="stat-grid">
-            <div class="stat-box">
-              <div class="stat-label">LOCATION</div>
-              <div class="stat-value">DA NANG</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-label">SECTOR</div>
-              <div class="stat-value">AI CHIPS</div>
-            </div>
-          </div>
-          <div class="card-desc">
-            新興的設計與研發中心。Nvidia 與 FPT 合作建立 AI 工廠，利用中部地區的大學人才庫進行晶片設計。
-          </div>
-        `
+        title: 'NVIDIA<br><span class="stat-tag">CENTRAL HUB</span>',
+        html: '<b>Location:</b> Da Nang<br><b>Partner:</b> FPT / Viettel<br><b>Focus:</b> AI Chip Design<br><br>正與越南政府合作建立 AI 工廠，利用中部大學人才發展晶片設計。'
       },
       intel: {
-        title: 'INTEL<br>SOUTH CLUSTER',
-        icon: 'I',
-        html: `
-          <div class="stat-grid">
-            <div class="stat-box">
-              <div class="stat-label">FACILITY</div>
-              <div class="stat-value">IPV (ATM)</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-label">STATUS</div>
-              <div class="stat-value">OPERATIONAL</div>
-            </div>
-          </div>
-          <div class="card-desc">
-            胡志明高科技園區 (SHTP) 是 Intel 全球最大的封裝測試廠。擁有最成熟的基礎設施與物流系統。
-          </div>
-        `
+        title: 'INTEL<br><span class="stat-tag">SOUTH CLUSTER</span>',
+        html: '<b>Location:</b> Ho Chi Minh (SHTP)<br><b>Facility:</b> IPV (ATM)<br><b>Focus:</b> Packaging & Test<br><br>Intel 全球最大的封測廠，擁有最完善的基礎設施與物流系統。'
       }
     };
 
-    // 互動邏輯
-    const card = document.getElementById('info-card');
-    const cTitle = document.getElementById('c-title');
-    const cIcon = document.getElementById('c-icon');
-    const cContent = document.getElementById('c-content');
-
+    // 綁定 Pin 點擊事件
     document.querySelectorAll('.pin').forEach(pin => {
-      // 滑鼠移入特效
+      // 滑鼠移入變大
       pin.addEventListener('mouseenter', function() {
-        this.object3D.scale.set(1.2, 1.2, 1.2);
-        document.body.style.cursor = 'pointer';
+        this.object3D.scale.set(1.3, 1.3, 1.3);
       });
-      // 滑鼠移出特效
       pin.addEventListener('mouseleave', function() {
         this.object3D.scale.set(1, 1, 1);
-        document.body.style.cursor = 'default';
       });
-
-      // 點擊事件
+      // 點擊顯示資料
       pin.addEventListener('click', function(evt) {
+        // 阻止事件冒泡 (重要!)
         evt.stopPropagation();
+        
         const id = this.getAttribute('data-id');
         const data = db[id];
-
-        // 填入資料
-        cTitle.innerHTML = data.title;
-        cIcon.innerText = data.icon;
-        cContent.innerHTML = data.html;
-
-        // 顯示卡片
-        card.classList.add('active');
+        
+        pTitle.innerHTML = data.title;
+        pContent.innerHTML = data.html;
+        panel.classList.add('active');
       });
     });
 
-    // 點擊空白處關閉
-    document.querySelector('a-scene').addEventListener('click', (evt) => {
+    // 點擊背景關閉視窗
+    document.querySelector('a-scene').addEventListener('click', function(evt) {
       if (!evt.target.classList.contains('clickable')) {
-        card.classList.remove('active');
+        panel.classList.remove('active');
       }
     });
   </script>
