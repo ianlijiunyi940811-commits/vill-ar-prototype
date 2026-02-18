@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>VILL: V30 Spatial Layout Optimization</title>
+  <title>VILL: V31 Elevated Spatial UI</title>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://unpkg.com/aframe-orbit-controls@1.3.0/dist/aframe-orbit-controls.min.js"></script>
   
@@ -18,7 +18,7 @@
   </style>
 
   <script>
-    // 強制物件面向鏡頭 (Billboard 功能)
+    // Billboard 功能：讓物件永遠正視鏡頭
     AFRAME.registerComponent('smart-label', {
       tick: function () {
         var cameraEl = this.el.sceneEl.camera.el;
@@ -90,7 +90,6 @@
         <a-box class="clickable" width="0.6" height="1.0" depth="0.6" position="0 0.2 0" 
                material="opacity: 0; transparent: true; depthWrite: false" 
                onclick="toggleCard('card-samsung')"></a-box>
-        
         <a-sphere radius="0.06" color="#ff0055" position="0 0.15 0">
            <a-animation attribute="scale" to="1.2 1.2 1.2" dur="800" dir="alternate" repeat="indefinite"></a-animation>
         </a-sphere>
@@ -100,26 +99,21 @@
            <a-text value="SAMSUNG" align="center" color="#fff" width="4" position="0 0 0" scale="0.5 0.5 0.5"></a-text>
         </a-entity>
 
-        <a-entity id="card-samsung" position="2.5 1.0 0" visible="false" scale="0 0 0" smart-label>
+        <a-entity id="card-samsung" position="2.5 1.4 0" visible="false" scale="0 0 0" smart-label>
           <a-plane width="3.5" height="0.4" material="src: #ui-header-tex; transparent: true" color="#007bff" position="0 1.6 0.02"></a-plane>
           <a-plane width="3.5" height="3.8" material="src: #ui-bg-tex; transparent: true; opacity: 0.98" position="0 0 0"></a-plane>
-
           <a-text value="SAMSUNG (Bac Ninh Cluster)" color="#fff" align="center" position="0 1.6 0.04" width="4.2"></a-text>
-          
           <a-text value="(A) Supply Chain Proximity:\nClose to China border. Components delivered in 12hrs.\n\n(B) Risk Diversification:\nReduce reliance on single production base (China).\n\n(C) Labor & Cost Advantage:\nAccess to large-scale, cost-competitive workforce.\n\n(D) Gov Incentives:\nSpecific tax breaks and land support in Bac Ninh.\n\n(E) Cluster Effect:\nAttracted logistics and sub-suppliers to cluster here." 
                   color="#e0f7fa" align="left" anchor="center" baseline="top" position="0 1.3 0.04" width="3.2" wrapCount="55" lineHeight="50"></a-text>
-          
           <a-text value="[ CLICK TO CLOSE ]" color="#4dd0e1" align="center" position="0 -1.6 0.04" width="2.5"></a-text>
           <a-plane class="clickable" width="3.5" height="3.8" position="0 0 0.05" visible="false" onclick="toggleCard('card-samsung')"></a-plane>
         </a-entity>
       </a-entity>
 
-
       <a-entity position="-0.05 0.1 -0.48" class="pin">
         <a-box class="clickable" width="0.6" height="1.0" depth="0.6" position="0 0.2 0" 
                material="opacity: 0; transparent: true; depthWrite: false" 
                onclick="toggleCard('card-apple')"></a-box>
-        
         <a-sphere radius="0.06" color="#ffffff" position="0 0.15 0"></a-sphere>
         <a-cone radius-bottom="0.01" radius-top="0.06" height="0.15" color="#ffffff" position="0 0.075 0"></a-cone>
         <a-entity position="0 0.45 0" smart-label>
@@ -127,15 +121,12 @@
            <a-text value="APPLE" align="center" color="#fff" width="4" position="0 0 0" scale="0.5 0.5 0.5"></a-text>
         </a-entity>
 
-        <a-entity id="card-apple" position="2.5 1.0 0" visible="false" scale="0 0 0" smart-label>
+        <a-entity id="card-apple" position="2.5 1.4 0" visible="false" scale="0 0 0" smart-label>
           <a-plane width="3.5" height="0.4" material="src: #ui-header-tex; transparent: true" color="#95a5a6" position="0 1.6 0.02"></a-plane>
           <a-plane width="3.5" height="3.8" material="src: #ui-bg-tex; transparent: true; opacity: 0.98" position="0 0 0"></a-plane>
-          
           <a-text value="APPLE Suppliers (Bac Ninh)" color="#000" align="center" position="0 1.6 0.04" width="4.2"></a-text>
-          
           <a-text value="(A) The Electronics Core:\nNear Hanoi, Airport & Port. Critical for high-freq export.\n\n(B) Mature Infrastructure:\nReady-made industrial parks (VSIP) allow fast ramp-up.\n\n(C) Supply Chain Proximity:\nSharing the ecosystem built by Samsung investments.\n\n(D) Aggregation Phenomenon:\nHighest concentration of Apple suppliers in one cluster.\n\n(E) China+1 Strategy:\nFoxconn expanding here for resilience and de-risking." 
                   color="#e0f7fa" align="left" anchor="center" baseline="top" position="0 1.3 0.04" width="3.2" wrapCount="55" lineHeight="50"></a-text>
-          
           <a-text value="[ CLICK TO CLOSE ]" color="#4dd0e1" align="center" position="0 -1.6 0.04" width="2.5"></a-text>
           <a-plane class="clickable" width="3.5" height="3.8" position="0 0 0.05" visible="false" onclick="toggleCard('card-apple')"></a-plane>
         </a-entity>
@@ -147,7 +138,7 @@
   </a-scene>
 
   <script>
-    // 材質生成 (地板/牆壁/木紋) - 無更動
+    // 材質生成
     const c1 = document.getElementById('wood-tex').getContext('2d');
     c1.fillStyle = '#6d4c41'; c1.fillRect(0,0,512,512); c1.strokeStyle = '#4e342e'; c1.lineWidth = 3;
     for(let i=0;i<60;i++){c1.beginPath();c1.moveTo(0,Math.random()*512);c1.bezierCurveTo(150,Math.random()*512,350,Math.random()*512,512,Math.random()*512);c1.stroke();}
@@ -157,7 +148,7 @@
     const c3 = document.getElementById('wall-tex').getContext('2d');
     c3.fillStyle = '#fdf5e6'; c3.fillRect(0,0,512,512); for(let i=0;i<5000;i++){ c3.fillStyle = Math.random()>0.5 ? '#fff8e1' : '#fff'; c3.fillRect(Math.random()*512, Math.random()*512, 2, 2); }
 
-    // UI 材質生成
+    // UI 材質
     function roundRect(ctx, x, y, width, height, radius, fill, stroke, strokeWidth) {
       ctx.beginPath();
       ctx.moveTo(x + radius, y);
@@ -173,14 +164,11 @@
       if (fill) { ctx.fillStyle = fill; ctx.fill(); }
       if (stroke) { ctx.lineWidth = strokeWidth; ctx.strokeStyle = stroke; ctx.stroke(); }
     }
-
     const ctxUI = document.getElementById('ui-bg-tex').getContext('2d');
     roundRect(ctxUI, 5, 5, 502, 502, 40, 'rgba(0, 59, 70, 0.95)', '#00d2ff', 4);
-
     const ctxHead = document.getElementById('ui-header-tex').getContext('2d');
     roundRect(ctxHead, 5, 5, 502, 90, 20, '#ffffff', null, 0);
 
-    // 互動邏輯
     const flat = document.getElementById('step1-flat');
     const ar = document.getElementById('step2-ar');
     window.activateHologram = function() {
