@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>VILL: V27 Final Perfect</title>
+  <title>VILL: V28 Final Design Fix</title>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://unpkg.com/aframe-orbit-controls@1.3.0/dist/aframe-orbit-controls.min.js"></script>
   
@@ -46,12 +46,12 @@
       <canvas id="floor-tex" width="512" height="512"></canvas>
       <canvas id="wood-tex" width="512" height="512"></canvas>
       <canvas id="wall-tex" width="512" height="512"></canvas>
+      <canvas id="ui-bg-tex" width="512" height="512"></canvas>
     </a-assets>
 
     <a-sky color="#87CEEB"></a-sky> 
     <a-plane position="0 0 0" rotation="-90 0 0" width="20" height="20" material="src: #floor-tex; roughness: 0.8; repeat: 4 4"></a-plane>
     <a-plane position="0 5 0" rotation="90 0 0" width="20" height="20" color="#fdf5e6"></a-plane>
-    
     <a-box position="0 2.5 -6" width="20" height="5" depth="0.2" color="#fdf5e6" material="src:#wall-tex"></a-box>
     <a-box position="6 2.5 0" width="0.2" height="5" depth="20" color="#fdf5e6" material="src:#wall-tex"></a-box>
     <a-box position="-6 4 0" width="0.2" height="2" depth="20" color="#fdf5e6" material="src:#wall-tex"></a-box>
@@ -89,29 +89,30 @@
         <a-box class="clickable" width="0.6" height="1.0" depth="0.6" position="0 0.2 0" 
                material="opacity: 0; transparent: true; depthWrite: false" 
                onclick="toggleCard('card-samsung')"></a-box>
-        
         <a-sphere radius="0.06" color="#ff0055" position="0 0.15 0">
            <a-animation attribute="scale" to="1.2 1.2 1.2" dur="800" dir="alternate" repeat="indefinite"></a-animation>
         </a-sphere>
         <a-cone radius-bottom="0.01" radius-top="0.06" height="0.15" color="#ff0055" position="0 0.075 0"></a-cone>
-        
         <a-entity position="0 0.45 0" smart-label>
            <a-text value="SAMSUNG" align="center" color="black" width="4" position="0.005 -0.005 -0.01" scale="0.5 0.5 0.5"></a-text>
            <a-text value="SAMSUNG" align="center" color="#fff" width="4" position="0 0 0" scale="0.5 0.5 0.5"></a-text>
         </a-entity>
 
-        <a-entity id="card-samsung" position="0.8 1.6 0" visible="false" scale="0 0 0" smart-label>
-          <a-box width="4.0" height="0.2" depth="0.02" color="#007bff" position="0 1.3 0"></a-box>
-          <a-box width="4.0" height="2.8" depth="0.02" color="#003b46" material="opacity: 0.98" position="0 -0.2 0"></a-box>
-          <a-box width="4.02" height="3.02" depth="0.01" color="#00d2ff" material="opacity: 0.4; transparent: true" position="0 0 -0.01"></a-box>
+        <a-entity id="card-samsung" position="0.8 1.7 0" visible="false" scale="0 0 0" smart-label>
           
-          <a-text value="SAMSUNG (Bac Ninh Cluster)" color="#fff" align="center" position="0 1.3 0.03" width="5.0" font="roboto"></a-text>
+          <a-box width="4.1" height="0.35" depth="0.01" color="#002633" position="0 1.35 0.01" opacity="0.8"></a-box>
+          <a-box width="4.0" height="0.25" depth="0.02" color="#007bff" position="0 1.35 0.02"></a-box>
           
-          <a-text value="(A) Supply Chain Proximity:\nClose to China border. Components delivered in 12hrs. Low switching cost and risk.\n\n(B) Risk Diversification:\nKey part of global restructuring to reduce reliance on single production base (China).\n\n(C) Labor & Cost Advantage:\nAccess to large-scale, cost-competitive manufacturing workforce.\n\n(D) Gov Incentives:\nBac Ninh offers specific tax breaks, land support, and admin assistance.\n\n(E) Cluster Effect:\nAs a first mover, Samsung attracted logistics and sub-suppliers to cluster here." 
-                  color="#e0f7fa" align="left" anchor="center" baseline="top" position="0 1.1 0.03" width="3.6" wrapCount="60" lineHeight="55" font="roboto"></a-text>
+          <a-plane width="4.0" height="3.3" material="src: #ui-bg-tex; transparent: true; opacity: 0.98" position="0 0 0"></a-plane>
+
+          <a-text value="SAMSUNG (Bac Ninh Cluster)" color="#fff" align="center" position="0 1.35 0.04" width="5.0" font="roboto"></a-text>
           
-          <a-text value="[ CLICK TO CLOSE ]" color="#4dd0e1" align="center" position="0 -1.4 0.03" width="3"></a-text>
-          <a-plane class="clickable" width="4.0" height="3.0" position="0 0 0.05" visible="false" onclick="toggleCard('card-samsung')"></a-plane>
+          <a-text value="(A) Supply Chain Proximity:\nClose to China border. Components delivered in 12hrs. Low switching cost.\n\n(B) Risk Diversification:\nKey part of global restructuring to reduce reliance on single production base.\n\n(C) Labor & Cost Advantage:\nAccess to large-scale, cost-competitive manufacturing workforce.\n\n(D) Gov Incentives:\nBac Ninh offers specific tax breaks, land support, and admin assistance.\n\n(E) Cluster Effect:\nAs a first mover, Samsung attracted logistics and sub-suppliers to cluster here." 
+                  color="#e0f7fa" align="left" anchor="center" baseline="top" position="0 1.05 0.04" width="3.6" wrapCount="60" lineHeight="55" font="roboto"></a-text>
+          
+          <a-text value="[ CLICK TO CLOSE ]" color="#4dd0e1" align="center" position="0 -1.45 0.04" width="3"></a-text>
+          
+          <a-plane class="clickable" width="4.0" height="3.3" position="0 0 0.05" visible="false" onclick="toggleCard('card-samsung')"></a-plane>
         </a-entity>
       </a-entity>
 
@@ -120,27 +121,27 @@
         <a-box class="clickable" width="0.6" height="1.0" depth="0.6" position="0 0.2 0" 
                material="opacity: 0; transparent: true; depthWrite: false" 
                onclick="toggleCard('card-apple')"></a-box>
-        
         <a-sphere radius="0.06" color="#ffffff" position="0 0.15 0"></a-sphere>
         <a-cone radius-bottom="0.01" radius-top="0.06" height="0.15" color="#ffffff" position="0 0.075 0"></a-cone>
-        
         <a-entity position="0 0.45 0" smart-label>
            <a-text value="APPLE" align="center" color="black" width="4" position="0.005 -0.005 -0.01" scale="0.5 0.5 0.5"></a-text>
            <a-text value="APPLE" align="center" color="#fff" width="4" position="0 0 0" scale="0.5 0.5 0.5"></a-text>
         </a-entity>
 
-        <a-entity id="card-apple" position="0.8 1.6 0" visible="false" scale="0 0 0" smart-label>
-          <a-box width="4.0" height="0.2" depth="0.02" color="#bdc3c7" position="0 1.3 0"></a-box>
-          <a-box width="4.0" height="2.8" depth="0.02" color="#003b46" material="opacity: 0.98" position="0 -0.2 0"></a-box>
-          <a-box width="4.02" height="3.02" depth="0.01" color="#00d2ff" material="opacity: 0.4; transparent: true" position="0 0 -0.01"></a-box>
+        <a-entity id="card-apple" position="0.8 1.7 0" visible="false" scale="0 0 0" smart-label>
           
-          <a-text value="APPLE Suppliers (Bac Ninh)" color="#000" align="center" position="0 1.3 0.03" width="5.0" font="roboto"></a-text>
+          <a-box width="4.1" height="0.35" depth="0.01" color="#2c3e50" position="0 1.35 0.01" opacity="0.8"></a-box>
+          <a-box width="4.0" height="0.25" depth="0.02" color="#bdc3c7" position="0 1.35 0.02"></a-box>
+          
+          <a-plane width="4.0" height="3.3" material="src: #ui-bg-tex; transparent: true; opacity: 0.98" position="0 0 0"></a-plane>
+          
+          <a-text value="APPLE Suppliers (Bac Ninh)" color="#000" align="center" position="0 1.35 0.04" width="5.0" font="roboto"></a-text>
           
           <a-text value="(A) The Electronics Core:\nNear Hanoi, Noi Bai Airport & Hai Phong Port. Critical for high-freq export.\n\n(B) Mature Infrastructure:\nReady-made industrial parks (VSIP) allow fast ramp-up for suppliers.\n\n(C) Supply Chain Proximity:\nSharing the ecosystem (logistics/talent) already built by Samsung.\n\n(D) Aggregation Phenomenon:\nHighest concentration of Apple suppliers creating a specialized cluster.\n\n(E) China+1 Strategy:\nFoxconn/Luxshare expanding here for resilience and de-risking." 
-                  color="#e0f7fa" align="left" anchor="center" baseline="top" position="0 1.1 0.03" width="3.6" wrapCount="60" lineHeight="55" font="roboto"></a-text>
+                  color="#e0f7fa" align="left" anchor="center" baseline="top" position="0 1.05 0.04" width="3.6" wrapCount="60" lineHeight="55" font="roboto"></a-text>
           
-          <a-text value="[ CLICK TO CLOSE ]" color="#4dd0e1" align="center" position="0 -1.4 0.03" width="3"></a-text>
-          <a-plane class="clickable" width="4.0" height="3.0" position="0 0 0.05" visible="false" onclick="toggleCard('card-apple')"></a-plane>
+          <a-text value="[ CLICK TO CLOSE ]" color="#4dd0e1" align="center" position="0 -1.45 0.04" width="3"></a-text>
+          <a-plane class="clickable" width="4.0" height="3.3" position="0 0 0.05" visible="false" onclick="toggleCard('card-apple')"></a-plane>
         </a-entity>
       </a-entity>
 
@@ -150,32 +151,51 @@
   </a-scene>
 
   <script>
-    // 材質生成 (保持不變)
+    // 材質生成 (地板/牆壁/木紋 - 無更動)
     const c1 = document.getElementById('wood-tex').getContext('2d');
     c1.fillStyle = '#6d4c41'; c1.fillRect(0,0,512,512); c1.strokeStyle = '#4e342e'; c1.lineWidth = 3;
     for(let i=0;i<60;i++){c1.beginPath();c1.moveTo(0,Math.random()*512);c1.bezierCurveTo(150,Math.random()*512,350,Math.random()*512,512,Math.random()*512);c1.stroke();}
-    
     const c2 = document.getElementById('floor-tex').getContext('2d');
     c2.fillStyle = '#e0e0e0'; c2.fillRect(0,0,512,512); c2.strokeStyle = '#bdbdbd'; c2.lineWidth = 4;
     c2.strokeRect(0,0,512,512); c2.fillStyle = '#f5f5f5'; c2.fillRect(10,10,230,230); c2.fillRect(260,10,230,230); c2.fillRect(10,260,230,230); c2.fillRect(260,260,230,230);
-
     const c3 = document.getElementById('wall-tex').getContext('2d');
-    c3.fillStyle = '#fdf5e6'; c3.fillRect(0,0,512,512); 
-    for(let i=0;i<5000;i++){ c3.fillStyle = Math.random()>0.5 ? '#fff8e1' : '#fff'; c3.fillRect(Math.random()*512, Math.random()*512, 2, 2); }
+    c3.fillStyle = '#fdf5e6'; c3.fillRect(0,0,512,512); for(let i=0;i<5000;i++){ c3.fillStyle = Math.random()>0.5 ? '#fff8e1' : '#fff'; c3.fillRect(Math.random()*512, Math.random()*512, 2, 2); }
 
+    // === [新增] UI 圓角背景材質生成器 ===
+    const ctxUI = document.getElementById('ui-bg-tex').getContext('2d');
+    // 繪製圓角矩形函數
+    function roundRect(ctx, x, y, width, height, radius, fill, stroke, strokeWidth) {
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.lineTo(x + width - radius, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+      ctx.lineTo(x + width, y + height - radius);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+      ctx.lineTo(x + radius, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+      ctx.lineTo(x, y + radius);
+      ctx.quadraticCurveTo(x, y, x + radius, y);
+      ctx.closePath();
+      if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+      if (stroke) { ctx.lineWidth = strokeWidth; ctx.strokeStyle = stroke; ctx.stroke(); }
+    }
+    // 生成深孔雀藍圓角背景 (帶亮藍色邊框)
+    // 填色: rgba(0, 59, 70, 0.95) = 深孔雀藍
+    // 邊框: #00d2ff = 亮青色
+    roundRect(ctxUI, 5, 5, 502, 502, 40, 'rgba(0, 59, 70, 0.95)', '#00d2ff', 4);
+
+
+    // 互動邏輯 (無更動)
     const flat = document.getElementById('step1-flat');
     const ar = document.getElementById('step2-ar');
-
     window.activateHologram = function() {
       flat.setAttribute('visible', 'false'); 
       ar.setAttribute('visible', 'true');
       ar.setAttribute('animation', 'property: scale; to: 1 1 1; dur: 1000; easing: easeOutElastic');
     };
-
     window.toggleCard = function(id) {
       const card = document.getElementById(id);
       const isVisible = card.getAttribute('visible');
-      
       if (isVisible) {
         card.setAttribute('animation', 'property: scale; to: 0 0 0; dur: 300; easing: easeInBack');
         setTimeout(() => card.setAttribute('visible', 'false'), 300);
@@ -186,7 +206,6 @@
              c.setAttribute('scale', '0 0 0');
            }
         });
-        
         card.setAttribute('visible', 'true');
         card.setAttribute('animation', 'property: scale; to: 1 1 1; dur: 500; easing: easeOutBack');
       }
