@@ -105,4 +105,405 @@
     <a-box position="-6 4 0" width="0.2" height="2" depth="20" color="#fdf5e6" material="src:#wall-tex"></a-box>
     <a-box position="-6 1 0" width="0.2" height="2" depth="20" color="#fdf5e6" material="src:#wall-tex"></a-box>
     <a-box position="-6 2.5 5" width="0.2" height="1" depth="10" color="#fdf5e6" material="src:#wall-tex"></a-box>
-    <a-box position="-6 2.5 -5" width="0.2" height="1" depth="10" color="#fdf5e6" material="src:#wall-
+    <a-box position="-6 2.5 -5" width="0.2" height="1" depth="10" color="#fdf5e6" material="src:#wall-tex"></a-box>
+
+    <!-- Front board -->
+    <a-entity id="front-board" position="0 2.65 -5.78">
+      <a-plane width="6.2" height="2.2" material="src:#board-tex; roughness:0.9" position="0 0 0.02"></a-plane>
+      <a-box width="6.35" height="2.35" depth="0.04" position="0 0 0" color="#2b2b2b" material="roughness:0.8"></a-box>
+      <a-box width="4.6" height="0.05" depth="0.18" position="0 -1.18 0.06" color="#5d4037"></a-box>
+      <a-box width="0.35" height="0.03" depth="0.03" position="-1.8 -1.16 0.14" color="#fff"></a-box>
+      <a-box width="0.35" height="0.03" depth="0.03" position="-1.35 -1.16 0.14" color="#ff5252"></a-box>
+      <a-box width="0.35" height="0.03" depth="0.03" position="-0.9 -1.16 0.14" color="#40c4ff"></a-box>
+      <a-box width="0.20" height="0.03" depth="0.05" position="-0.35 -1.16 0.14" color="#eeeeee"></a-box>
+    </a-entity>
+
+    <!-- Projector screen -->
+    <a-entity id="projector" position="0 4.55 -5.2">
+      <a-box width="4.4" height="0.12" depth="0.18" color="#222"></a-box>
+      <a-plane width="4.2" height="2.4" position="0 -1.25 0.10" color="#f7f7f7" material="roughness:0.9; opacity:0.97"></a-plane>
+    </a-entity>
+
+    <!-- Ceiling lights -->
+    <a-entity id="ceiling-lights" position="0 4.85 0">
+      <a-box width="3.6" height="0.06" depth="1.0" position="0 0 2.2" color="#fafafa" material="emissive:#ffffff; emissiveIntensity:0.35"></a-box>
+      <a-box width="3.6" height="0.06" depth="1.0" position="0 0 -0.2" color="#fafafa" material="emissive:#ffffff; emissiveIntensity:0.35"></a-box>
+      <a-box width="3.6" height="0.06" depth="1.0" position="0 0 -2.6" color="#fafafa" material="emissive:#ffffff; emissiveIntensity:0.35"></a-box>
+    </a-entity>
+
+    <!-- ✅ WINDOWS FIX v2: centered on right wall, better height & spacing -->
+    <!-- Right wall inner face approx x=5.90, windows shifted slightly toward back to avoid "too front" look -->
+    <a-entity id="windows" position="5.90 2.35 0.8" rotation="0 -90 0">
+      <!-- Window 1 (front-mid) -->
+      <a-entity position="0 0 2.4">
+        <a-plane width="2.0" height="1.35"
+                 material="src:#window-tex; transparent:true; opacity:0.9; side:double"
+                 position="0 0 0.02"></a-plane>
+        <a-box width="2.10" height="1.45" depth="0.06" position="0 0 -0.01" color="#90a4ae"></a-box>
+        <a-box width="2.10" height="0.03" depth="0.02" position="0 0.40 0.05" color="#eceff1" opacity="0.7"></a-box>
+        <a-box width="2.10" height="0.03" depth="0.02" position="0 0.08 0.05" color="#eceff1" opacity="0.7"></a-box>
+        <a-box width="2.10" height="0.03" depth="0.02" position="0 -0.24 0.05" color="#eceff1" opacity="0.7"></a-box>
+      </a-entity>
+
+      <!-- Window 2 (center) -->
+      <a-entity position="0 0 -0.6">
+        <a-plane width="2.0" height="1.35"
+                 material="src:#window-tex; transparent:true; opacity:0.9; side:double"
+                 position="0 0 0.02"></a-plane>
+        <a-box width="2.10" height="1.45" depth="0.06" position="0 0 -0.01" color="#90a4ae"></a-box>
+        <a-box width="2.10" height="0.03" depth="0.02" position="0 0.40 0.05" color="#eceff1" opacity="0.7"></a-box>
+        <a-box width="2.10" height="0.03" depth="0.02" position="0 0.08 0.05" color="#eceff1" opacity="0.7"></a-box>
+        <a-box width="2.10" height="0.03" depth="0.02" position="0 -0.24 0.05" color="#eceff1" opacity="0.7"></a-box>
+      </a-entity>
+
+      <!-- Window 3 (back-mid) -->
+      <a-entity position="0 0 -3.6">
+        <a-plane width="2.0" height="1.35"
+                 material="src:#window-tex; transparent:true; opacity:0.9; side:double"
+                 position="0 0 0.02"></a-plane>
+        <a-box width="2.10" height="1.45" depth="0.06" position="0 0 -0.01" color="#90a4ae"></a-box>
+        <a-box width="2.10" height="0.03" depth="0.02" position="0 0.40 0.05" color="#eceff1" opacity="0.7"></a-box>
+        <a-box width="2.10" height="0.03" depth="0.02" position="0 0.08 0.05" color="#eceff1" opacity="0.7"></a-box>
+        <a-box width="2.10" height="0.03" depth="0.02" position="0 -0.24 0.05" color="#eceff1" opacity="0.7"></a-box>
+      </a-entity>
+    </a-entity>
+
+    <!-- Door -->
+    <a-entity id="door" position="-5.88 1.3 3.8" rotation="0 90 0">
+      <a-plane width="1.8" height="2.6" material="src:#door-tex; roughness:0.9"></a-plane>
+      <a-box width="1.86" height="2.66" depth="0.06" position="0 0 -0.03" color="#5d4037" opacity="0.9"></a-box>
+      <a-sphere radius="0.05" position="0.65 0.0 0.05" color="#d4af37"></a-sphere>
+      <a-box width="0.25" height="0.08" depth="0.02" position="0.65 0.0 0.06" color="#d4af37"></a-box>
+      <a-plane width="0.6" height="0.2" position="-0.25 0.95 0.06" color="#ffffff" opacity="0.95"></a-plane>
+      <a-text value="VILL LAB" color="#111" align="center" width="1.6" position="-0.25 0.95 0.07" scale="0.7 0.7 0.7"></a-text>
+    </a-entity>
+
+    <!-- Poster -->
+    <a-entity id="posters" position="-4.8 2.6 -3.5" rotation="0 90 0">
+      <a-plane width="2.4" height="1.4" material="src:#poster-tex; roughness:0.9" position="0 0 0.02"></a-plane>
+      <a-box width="2.5" height="1.5" depth="0.05" color="#37474f" position="0 0 0"></a-box>
+      <a-text value="TODAY:\nSupply Chain Map\nRisk & Strategy" color="#ffffff" align="left" width="2.2"
+              position="-1.05 0.45 0.06" wrapCount="18" scale="0.7 0.7 0.7"></a-text>
+    </a-entity>
+
+    <!-- Bookshelf -->
+    <a-entity id="bookshelf" position="5.0 1.2 6.0" rotation="0 -135 0">
+      <a-box width="1.6" height="2.4" depth="0.45" material="src:#shelf-tex; roughness:0.95"></a-box>
+      <a-box width="1.55" height="0.05" depth="0.42" position="0 0.7 0" color="#3e2723"></a-box>
+      <a-box width="1.55" height="0.05" depth="0.42" position="0 0.0 0" color="#3e2723"></a-box>
+      <a-box width="1.55" height="0.05" depth="0.42" position="0 -0.7 0" color="#3e2723"></a-box>
+      <a-box width="0.12" height="0.35" depth="0.25" position="-0.55 0.90 0.05" color="#ff5252"></a-box>
+      <a-box width="0.12" height="0.42" depth="0.25" position="-0.40 0.86 0.05" color="#40c4ff"></a-box>
+      <a-box width="0.12" height="0.30" depth="0.25" position="-0.25 0.92 0.05" color="#ffd740"></a-box>
+      <a-box width="0.12" height="0.40" depth="0.25" position="0.05 0.86 0.05" color="#69f0ae"></a-box>
+      <a-box width="0.12" height="0.34" depth="0.25" position="0.20 0.89 0.05" color="#b388ff"></a-box>
+      <a-box width="0.12" height="0.38" depth="0.25" position="0.35 0.87 0.05" color="#ffab40"></a-box>
+      <a-cylinder radius="0.12" height="0.18" position="0.55 -0.95 0.10" color="#795548"></a-cylinder>
+      <a-sphere radius="0.18" position="0.55 -0.80 0.10" color="#2e7d32"></a-sphere>
+    </a-entity>
+
+    <!-- Student desks (unchanged placement from last fix) -->
+    <a-entity id="student-desks">
+      <a-entity position="-3.8 0 3.6">
+        <a-box width="1.2" height="0.08" depth="0.7" position="0 0.75 0" material="src:#wood-tex; roughness:0.6"></a-box>
+        <a-box width="1.15" height="0.65" depth="0.05" position="0 0.45 -0.30" color="#263238"></a-box>
+        <a-box width="0.5" height="0.05" depth="0.5" position="0 0.45 -0.62" color="#455a64"></a-box>
+        <a-box width="0.55" height="0.55" depth="0.55" position="0 0.2 -0.62" color="#37474f"></a-box>
+        <a-cylinder radius="0.03" height="0.75" position="-0.55 0.38 0.30" color="#616161"></a-cylinder>
+        <a-cylinder radius="0.03" height="0.75" position="0.55 0.38 0.30" color="#616161"></a-cylinder>
+        <a-cylinder radius="0.03" height="0.75" position="-0.55 0.38 -0.30" color="#616161"></a-cylinder>
+        <a-cylinder radius="0.03" height="0.75" position="0.55 0.38 -0.30" color="#616161"></a-cylinder>
+      </a-entity>
+
+      <a-entity position="-1.6 0 3.6">
+        <a-box width="1.2" height="0.08" depth="0.7" position="0 0.75 0" material="src:#wood-tex; roughness:0.6"></a-box>
+        <a-box width="1.15" height="0.65" depth="0.05" position="0 0.45 -0.30" color="#263238"></a-box>
+        <a-box width="0.5" height="0.05" depth="0.5" position="0 0.45 -0.62" color="#455a64"></a-box>
+        <a-box width="0.55" height="0.55" depth="0.55" position="0 0.2 -0.62" color="#37474f"></a-box>
+        <a-cylinder radius="0.03" height="0.75" position="-0.55 0.38 0.30" color="#616161"></a-cylinder>
+        <a-cylinder radius="0.03" height="0.75" position="0.55 0.38 0.30" color="#616161"></a-cylinder>
+        <a-cylinder radius="0.03" height="0.75" position="-0.55 0.38 -0.30" color="#616161"></a-cylinder>
+        <a-cylinder radius="0.03" height="0.75" position="0.55 0.38 -0.30" color="#616161"></a-cylinder>
+      </a-entity>
+
+      <a-entity position="1.6 0 3.6">
+        <a-box width="1.2" height="0.08" depth="0.7" position="0 0.75 0" material="src:#wood-tex; roughness:0.6"></a-box>
+        <a-box width="1.15" height="0.65" depth="0.05" position="0 0.45 -0.30" color="#263238"></a-box>
+        <a-box width="0.5" height="0.05" depth="0.5" position="0 0.45 -0.62" color="#455a64"></a-box>
+        <a-box width="0.55" height="0.55" depth="0.55" position="0 0.2 -0.62" color="#37474f"></a-box>
+        <a-cylinder radius="0.03" height="0.75" position="-0.55 0.38 0.30" color="#616161"></a-cylinder>
+        <a-cylinder radius="0.03" height="0.75" position="0.55 0.38 0.30" color="#616161"></a-cylinder>
+        <a-cylinder radius="0.03" height="0.75" position="-0.55 0.38 -0.30" color="#616161"></a-cylinder>
+        <a-cylinder radius="0.03" height="0.75" position="0.55 0.38 -0.30" color="#616161"></a-cylinder>
+      </a-entity>
+
+      <a-entity position="3.8 0 3.6">
+        <a-box width="1.2" height="0.08" depth="0.7" position="0 0.75 0" material="src:#wood-tex; roughness:0.6"></a-box>
+        <a-box width="1.15" height="0.65" depth="0.05" position="0 0.45 -0.30" color="#263238"></a-box>
+        <a-box width="0.5" height="0.05" depth="0.5" position="0 0.45 -0.62" color="#455a64"></a-box>
+        <a-box width="0.55" height="0.55" depth="0.55" position="0 0.2 -0.62" color="#37474f"></a-box>
+        <a-cylinder radius="0.03" height="0.75" position="-0.55 0.38 0.30" color="#616161"></a-cylinder>
+        <a-cylinder radius="0.03" height="0.75" position="0.55 0.38 0.30" color="#616161"></a-cylinder>
+        <a-cylinder radius="0.03" height="0.75" position="-0.55 0.38 -0.30" color="#616161"></a-cylinder>
+        <a-cylinder radius="0.03" height="0.75" position="0.55 0.38 -0.30" color="#616161"></a-cylinder>
+      </a-entity>
+
+      <a-entity position="-2.7 0 5.9">
+        <a-box width="1.2" height="0.08" depth="0.7" position="0 0.75 0" material="src:#wood-tex; roughness:0.6"></a-box>
+        <a-box width="1.15" height="0.65" depth="0.05" position="0 0.45 -0.30" color="#263238"></a-box>
+        <a-box width="0.5" height="0.05" depth="0.5" position="0 0.45 -0.62" color="#455a64"></a-box>
+        <a-box width="0.55" height="0.55" depth="0.55" position="0 0.2 -0.62" color="#37474f"></a-box>
+        <a-cylinder radius="0.03" height="0.75" position="-0.55 0.38 0.30" color="#616161"></a-cylinder>
+        <a-cylinder radius="0.03" height="0.75" position="0.55 0.38 0.30" color="#616161"></a-cylinder>
+        <a-cylinder radius="0.03" height="0.75" position="-0.55 0.38 -0.30" color="#616161"></a-cylinder>
+        <a-cylinder radius="0.03" height="0.75" position="0.55 0.38 -0.30" color="#616161"></a-cylinder>
+      </a-entity>
+
+      <a-entity position="0 0 5.9">
+        <a-box width="1.2" height="0.08" depth="0.7" position="0 0.75 0" material="src:#wood-tex; roughness:0.6"></a-box>
+        <a-box width="1.15" height="0.65" depth="0.05" position="0 0.45 -0.30" color="#263238"></a-box>
+        <a-box width="0.5" height="0.05" depth="0.5" position="0 0.45 -0.62" color="#455a64"></a-box>
+        <a-box width="0.55" height="0.55" depth="0.55" position="0 0.2 -0.62" color="#37474f"></a-box>
+        <a-cylinder radius="0.03" height="0.75" position="-0.55 0.38 0.30" color="#616161"></a-cylinder>
+        <a-cylinder radius="0.03" height="0.75" position="0.55 0.38 0.30" color="#616161"></a-cylinder>
+        <a-cylinder radius="0.03" height="0.75" position="-0.55 0.38 -0.30" color="#616161"></a-cylinder>
+        <a-cylinder radius="0.03" height="0.75" position="0.55 0.38 -0.30" color="#616161"></a-cylinder>
+      </a-entity>
+
+      <a-entity position="2.7 0 5.9">
+        <a-box width="1.2" height="0.08" depth="0.7" position="0 0.75 0" material="src:#wood-tex; roughness:0.6"></a-box>
+        <a-box width="1.15" height="0.65" depth="0.05" position="0 0.45 -0.30" color="#263238"></a-box>
+        <a-box width="0.5" height="0.05" depth="0.5" position="0 0.45 -0.62" color="#455a64"></a-box>
+        <a-box width="0.55" height="0.55" depth="0.55" position="0 0.2 -0.62" color="#37474f"></a-box>
+        <a-cylinder radius="0.03" height="0.75" position="-0.55 0.38 0.30" color="#616161"></a-cylinder>
+        <a-cylinder radius="0.03" height="0.75" position="0.55 0.38 0.30" color="#616161"></a-cylinder>
+        <a-cylinder radius="0.03" height="0.75" position="-0.55 0.38 -0.30" color="#616161"></a-cylinder>
+        <a-cylinder radius="0.03" height="0.75" position="0.55 0.38 -0.30" color="#616161"></a-cylinder>
+      </a-entity>
+    </a-entity>
+
+    <!-- Lighting -->
+    <a-light type="ambient" intensity="0.55" color="#fff"></a-light>
+    <a-light type="directional" position="-10 6 2" intensity="0.95" castShadow="true" color="#ffe9c4"></a-light>
+    <a-light type="point" position="0 4.7 2.2" intensity="0.55" distance="18" color="#ffffff"></a-light>
+    <a-light type="point" position="0 4.7 -0.2" intensity="0.55" distance="18" color="#ffffff"></a-light>
+    <a-light type="point" position="0 4.7 -2.6" intensity="0.55" distance="18" color="#ffffff"></a-light>
+    <a-light type="spot" position="0 6 0" target="#table" intensity="0.8" penumbra="0.5"></a-light>
+
+    <!-- Table (unchanged) -->
+    <a-entity id="table" position="0 0 0">
+      <a-cylinder position="0 0.8 0" radius="2.2" height="0.1" material="src: #wood-tex; color: #5d4037; roughness: 0.4"></a-cylinder>
+      <a-cylinder position="0 0.4 0" radius="0.3" height="0.8" color="#333"></a-cylinder>
+      <a-cylinder position="0 0.02 0" radius="1.2" height="0.05" color="#222"></a-cylinder>
+    </a-entity>
+
+    <!-- Step 1 (unchanged) -->
+    <a-entity id="step1-flat" position="0 0.86 0" rotation="-90 0 0">
+      <a-plane width="1.4" height="2" color="#fff" class="clickable" onclick="activateHologram()">
+        <a-image src="#map-tex" width="1.3" height="1.9" position="0 0 0.01" material="color: #666"></a-image>
+        <a-text value="CLICK TO ACTIVATE MAP" align="center" position="0 0 0.05" color="white" scale="0.8 0.8 0.8"></a-text>
+        <a-plane width="1.4" height="2" position="0 0 0.02" visible="false"></a-plane>
+      </a-plane>
+    </a-entity>
+
+    <!-- Step 2 (unchanged) -->
+    <a-entity id="step2-ar" position="0 1.2 0" visible="false" scale="0.1 0.1 0.1">
+      <a-image src="#map-tex" width="1.8" height="2.6" rotation="-90 0 0" material="shader: flat"></a-image>
+      <a-plane width="1.8" height="0.05" rotation="-90 0 0" color="#00d2ff" opacity="0.3" position="0 0.05 0">
+        <a-animation attribute="position" from="0 0.05 -1" to="0 0.05 1" dur="2500" dir="alternate" repeat="indefinite"></a-animation>
+      </a-plane>
+
+      <!-- SAMSUNG -->
+      <a-entity id="pin-samsung" position="0.05 0.1 -0.65" class="pin">
+        <a-box class="clickable"
+               width="0.6" height="1.0" depth="0.6" position="0 0.2 0"
+               material="opacity: 0; transparent: true; depthWrite: false"
+               pin-hover="target: #pin-samsung; overScale: 1.35; dur: 140"
+               onclick="toggleCard('card-samsung')"></a-box>
+
+        <a-sphere radius="0.06" color="#ff0055" position="0 0.15 0">
+          <a-animation attribute="scale" to="1.2 1.2 1.2" dur="800" dir="alternate" repeat="indefinite"></a-animation>
+        </a-sphere>
+        <a-cone radius-bottom="0.01" radius-top="0.06" height="0.15" color="#ff0055" position="0 0.075 0"></a-cone>
+        <a-entity position="0 0.45 0" smart-label>
+          <a-text value="SAMSUNG" align="center" color="black" width="4" position="0.005 -0.005 -0.01" scale="0.5 0.5 0.5"></a-text>
+          <a-text value="SAMSUNG" align="center" color="#fff" width="4" position="0 0 0" scale="0.5 0.5 0.5"></a-text>
+        </a-entity>
+
+        <a-entity id="card-samsung" position="0 1.8 0" visible="false" scale="0 0 0" smart-label>
+          <a-plane width="2.8" height="0.35" material="src: #ui-header-tex; transparent: true" color="#007bff" position="0 1.2 0.02"></a-plane>
+          <a-plane width="2.8" height="2.7" material="src: #ui-bg-tex; transparent: true; opacity: 0.98" position="0 0 0"></a-plane>
+          <a-text value="SAMSUNG (Bac Ninh Cluster)" color="#fff" align="center" position="0 1.2 0.04" width="3.5"></a-text>
+
+          <a-text value="(A) Supply Chain Proximity:\nClose to China border. Parts delivered in 12hrs.\n\n(B) Risk Diversification:\nReduce reliance on single production base (China).\n\n(C) Labor & Cost Advantage:\nAccess to large-scale, cost-competitive workforce.\n\n(D) Gov Incentives:\nSpecific tax breaks and land support in Bac Ninh.\n\n(E) China+1 Strategy:\nFoxconn expanding here for resilience."
+                  color="#e0f7fa" align="left" anchor="center" baseline="top" position="0 0.95 0.04" width="2.5" wrapCount="62" lineHeight="50"></a-text>
+
+          <a-text value="[ CLICK TO CLOSE ]" color="#4dd0e1" align="center" position="0 -1.15 0.04" width="2.2"></a-text>
+          <a-plane class="clickable" width="2.8" height="2.7" position="0 0 0.05"
+                   material="opacity: 0; transparent: true; depthWrite: false"
+                   onclick="toggleCard('card-samsung')"></a-plane>
+        </a-entity>
+      </a-entity>
+
+      <!-- APPLE -->
+      <a-entity id="pin-apple" position="-0.05 0.1 -0.48" class="pin">
+        <a-box class="clickable"
+               width="0.6" height="1.0" depth="0.6" position="0 0.2 0"
+               material="opacity: 0; transparent: true; depthWrite: false"
+               pin-hover="target: #pin-apple; overScale: 1.35; dur: 140"
+               onclick="toggleCard('card-apple')"></a-box>
+
+        <a-sphere radius="0.06" color="#ffffff" position="0 0.15 0">
+          <a-animation attribute="scale" to="1.2 1.2 1.2" dur="800" dir="alternate" repeat="indefinite"></a-animation>
+        </a-sphere>
+        <a-cone radius-bottom="0.01" radius-top="0.06" height="0.15" color="#ffffff" position="0 0.075 0"></a-cone>
+        <a-entity position="0 0.45 0" smart-label>
+          <a-text value="APPLE" align="center" color="black" width="4" position="0.005 -0.005 -0.01" scale="0.5 0.5 0.5"></a-text>
+          <a-text value="APPLE" align="center" color="#fff" width="4" position="0 0 0" scale="0.5 0.5 0.5"></a-text>
+        </a-entity>
+
+        <a-entity id="card-apple" position="0 1.8 0" visible="false" scale="0 0 0" smart-label>
+          <a-plane width="2.8" height="0.35" material="src: #ui-header-tex; transparent: true" color="#95a5a6" position="0 1.2 0.02"></a-plane>
+          <a-plane width="2.8" height="2.7" material="src: #ui-bg-tex; transparent: true; opacity: 0.98" position="0 0 0"></a-plane>
+          <a-text value="APPLE Suppliers (Bac Ninh)" color="#fff" align="center" position="0 1.2 0.04" width="3.5"></a-text>
+
+          <a-text value="(A) The Electronics Core:\nNear Hanoi, Airport & Port. Critical for export.\n\n(B) Mature Infrastructure:\nReady-made VSIP parks allow fast ramp-up.\n\n(C) Supply Chain Proximity:\nSharing the ecosystem built by Samsung.\n\n(D) Aggregation Phenomenon:\nHighest concentration of Apple suppliers in cluster.\n\n(E) China+1 Strategy:\nFoxconn expanding here for resilience."
+                  color="#e0f7fa" align="left" anchor="center" baseline="top" position="0 0.95 0.04" width="2.5" wrapCount="62" lineHeight="50"></a-text>
+
+          <a-text value="[ CLICK TO CLOSE ]" color="#4dd0e1" align="center" position="0 -1.15 0.04" width="2.2"></a-text>
+          <a-plane class="clickable" width="2.8" height="2.7" position="0 0 0.05"
+                   material="opacity: 0; transparent: true; depthWrite: false"
+                   onclick="toggleCard('card-apple')"></a-plane>
+        </a-entity>
+      </a-entity>
+    </a-entity>
+
+    <!-- Camera -->
+    <a-entity camera look-controls="enabled: false"
+      orbit-controls="target: 0 0.8 0; minDistance: 0.1; maxDistance: 10; initialPosition: 0 2 3.5; rotateSpeed: 0.5; zoomSpeed: 2.0; enableZoom: true; enablePan: true; screenSpacePanning: true;">
+    </a-entity>
+  </a-scene>
+
+  <script>
+    // ===== existing textures =====
+    const c1 = document.getElementById('wood-tex').getContext('2d');
+    c1.fillStyle = '#6d4c41'; c1.fillRect(0,0,512,512); c1.strokeStyle = '#4e342e'; c1.lineWidth = 3;
+    for(let i=0;i<60;i++){c1.beginPath();c1.moveTo(0,Math.random()*512);c1.bezierCurveTo(150,Math.random()*512,350,Math.random()*512,512,Math.random()*512);c1.stroke();}
+
+    const c3 = document.getElementById('wall-tex').getContext('2d');
+    c3.fillStyle = '#fdf5e6'; c3.fillRect(0,0,512,512);
+    for(let i=0;i<5000;i++){ c3.fillStyle = Math.random()>0.5 ? '#fff8e1' : '#fff'; c3.fillRect(Math.random()*512, Math.random()*512, 2, 2); }
+
+    function roundRect(ctx, x, y, width, height, radius, fill, stroke, strokeWidth) {
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.lineTo(x + width - radius, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+      ctx.lineTo(x + width, y + height - radius);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+      ctx.lineTo(x + radius, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+      ctx.lineTo(x, y + radius);
+      ctx.quadraticCurveTo(x, y, x + radius, y);
+      ctx.closePath();
+      if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+      if (stroke) { ctx.lineWidth = strokeWidth; ctx.strokeStyle = stroke; ctx.stroke(); }
+    }
+
+    const ctxUI = document.getElementById('ui-bg-tex').getContext('2d');
+    roundRect(ctxUI, 5, 5, 502, 502, 40, 'rgba(0, 59, 70, 0.95)', '#00d2ff', 4);
+
+    const ctxHead = document.getElementById('ui-header-tex').getContext('2d');
+    roundRect(ctxHead, 5, 5, 502, 90, 20, '#ffffff', null, 0);
+
+    // ===== classroom textures =====
+    const t = document.getElementById('tile-tex').getContext('2d');
+    t.fillStyle = '#e6e6e6'; t.fillRect(0,0,512,512);
+    t.strokeStyle = '#c7c7c7'; t.lineWidth = 2;
+    for (let x=0; x<=512; x+=64) { t.beginPath(); t.moveTo(x,0); t.lineTo(x,512); t.stroke(); }
+    for (let y=0; y<=512; y+=64) { t.beginPath(); t.moveTo(0,y); t.lineTo(512,y); t.stroke(); }
+    for(let i=0;i<3500;i++){
+      const v = Math.random() > 0.5 ? 235 : 245;
+      t.fillStyle = `rgb(${v},${v},${v})`;
+      t.fillRect(Math.random()*512, Math.random()*512, 2, 2);
+    }
+
+    const ceil = document.getElementById('ceiling-tex').getContext('2d');
+    ceil.fillStyle = '#f7f7f7'; ceil.fillRect(0,0,512,512);
+    ceil.strokeStyle = '#e0e0e0'; ceil.lineWidth = 2;
+    for (let x=0; x<=512; x+=85) { ceil.beginPath(); ceil.moveTo(x,0); ceil.lineTo(x,512); ceil.stroke(); }
+    for (let y=0; y<=512; y+=85) { ceil.beginPath(); ceil.moveTo(0,y); ceil.lineTo(512,y); ceil.stroke(); }
+
+    // ✅ BOARD: remove ALL text, keep chalky board only
+    const b = document.getElementById('board-tex').getContext('2d');
+    b.fillStyle = '#1c5f2a'; b.fillRect(0,0,1024,512);
+    for(let i=0;i<12000;i++){
+      b.fillStyle = Math.random()>0.55 ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.02)';
+      b.fillRect(Math.random()*1024, Math.random()*512, 2, 2);
+    }
+    // no fillText here
+
+    const w = document.getElementById('window-tex').getContext('2d');
+    w.fillStyle = 'rgba(120,190,255,0.85)'; w.fillRect(0,0,512,512);
+    const grad = w.createLinearGradient(0,0,512,512);
+    grad.addColorStop(0,'rgba(255,255,255,0.55)');
+    grad.addColorStop(0.5,'rgba(255,255,255,0.08)');
+    grad.addColorStop(1,'rgba(255,255,255,0.35)');
+    w.fillStyle = grad; w.fillRect(0,0,512,512);
+    w.strokeStyle = 'rgba(255,255,255,0.55)'; w.lineWidth = 6;
+    w.strokeRect(20,20,472,472);
+    w.strokeRect(256,20,0,472);
+    w.strokeRect(20,256,472,0);
+
+    const p = document.getElementById('poster-tex').getContext('2d');
+    p.fillStyle = '#0b2a35'; p.fillRect(0,0,512,512);
+    p.fillStyle = '#00d2ff'; p.fillRect(0,0,512,80);
+    p.fillStyle = '#ffffff'; p.font = 'bold 32px Arial'; p.fillText('VILL NOTICE', 22, 52);
+    p.fillStyle = 'rgba(255,255,255,0.92)'; p.font = '22px Arial';
+    p.fillText('Hover pins to preview.', 24, 140);
+    p.fillText('Click pins for analysis.', 24, 175);
+    p.fillText('Discuss: Risk & Incentives', 24, 210);
+
+    const s = document.getElementById('shelf-tex').getContext('2d');
+    s.fillStyle = '#3e2723'; s.fillRect(0,0,512,512);
+    s.fillStyle = 'rgba(255,255,255,0.08)';
+    for(let i=0;i<70;i++){ s.fillRect(Math.random()*512, Math.random()*512, 60, 4); }
+    s.strokeStyle = 'rgba(0,0,0,0.35)'; s.lineWidth = 8;
+    s.strokeRect(20,20,472,472);
+
+    const d = document.getElementById('door-tex').getContext('2d');
+    d.fillStyle = '#6d4c41'; d.fillRect(0,0,512,512);
+    d.fillStyle = 'rgba(0,0,0,0.15)'; d.fillRect(55,40,402,432);
+    d.strokeStyle = 'rgba(255,255,255,0.18)'; d.lineWidth = 6;
+    d.strokeRect(55,40,402,432);
+
+    // ===== interaction (unchanged) =====
+    const flat = document.getElementById('step1-flat');
+    const ar = document.getElementById('step2-ar');
+
+    window.activateHologram = function() {
+      flat.setAttribute('visible', 'false');
+      ar.setAttribute('visible', 'true');
+      ar.setAttribute('animation', 'property: scale; to: 1 1 1; dur: 1000; easing: easeOutElastic');
+    };
+
+    window.toggleCard = function(id) {
+      const card = document.getElementById(id);
+      const isVisible = card.getAttribute('visible');
+      if (isVisible) {
+        card.setAttribute('animation', 'property: scale; to: 0 0 0; dur: 300; easing: easeInBack');
+        setTimeout(() => card.setAttribute('visible', 'false'), 300);
+      } else {
+        document.querySelectorAll('[id^="card-"]').forEach(c => {
+          if (c.getAttribute('visible')) {
+            c.setAttribute('visible', 'false');
+            c.setAttribute('scale', '0 0 0');
+          }
+        });
+        card.setAttribute('visible', 'true');
+        card.setAttribute('animation', 'property: scale; to: 1 1 1; dur: 500; easing: easeOutBack');
+      }
+    };
+  </script>
+</body>
+</html>
