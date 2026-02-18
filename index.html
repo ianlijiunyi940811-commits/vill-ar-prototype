@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>VILL: North Vietnam Strategy</title>
+  <title>VILL: North Vietnam Strategy (Text Fix)</title>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://unpkg.com/aframe-orbit-controls@1.3.0/dist/aframe-orbit-controls.min.js"></script>
   
@@ -10,77 +10,46 @@
     @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&family=Noto+Sans+TC:wght@400;700&display=swap');
     body { margin: 0; overflow: hidden; font-family: 'Noto Sans TC', sans-serif; background-color: #1a1a1a; }
 
-    /* === UI 層 === */
-    #ui-layer {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: 999;
-      display: flex; flex-direction: column; justify-content: space-between;
-    }
-
-    /* 頂部標題 */
-    .header {
-      background: rgba(10, 20, 30, 0.95);
-      border-bottom: 3px solid #00d2ff;
-      padding: 20px 40px;
-      display: flex; justify-content: space-between; align-items: center;
-      pointer-events: auto;
-    }
+    /* === UI 層 (保持不變) === */
+    #ui-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; display: flex; flex-direction: column; justify-content: space-between; }
+    .header { background: rgba(10, 20, 30, 0.95); border-bottom: 3px solid #00d2ff; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; pointer-events: auto; }
     .title { color: #00d2ff; font-family: 'Rajdhani', sans-serif; font-size: 28px; font-weight: bold; letter-spacing: 2px; }
     .subtitle { color: #fff; font-size: 14px; margin-left: 15px; opacity: 0.8; }
-
-    /* 右側資料面板 (互動核心) */
-    #info-panel {
-      position: absolute; top: 120px; right: 30px; width: 340px;
-      background: rgba(16, 24, 32, 0.98);
-      border: 1px solid #444; border-left: 6px solid #00d2ff;
-      border-radius: 8px; padding: 25px;
-      color: white;
-      transform: translateX(130%); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      pointer-events: auto; /* 關鍵：允許點擊 */
-      box-shadow: -10px 10px 40px rgba(0,0,0,0.6);
-    }
+    #info-panel { position: absolute; top: 120px; right: 30px; width: 340px; background: rgba(16, 24, 32, 0.98); border: 1px solid #444; border-left: 6px solid #00d2ff; border-radius: 8px; padding: 25px; color: white; transform: translateX(130%); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: auto; box-shadow: -10px 10px 40px rgba(0,0,0,0.6); }
     #info-panel.active { transform: translateX(0); }
-
     .panel-h { color: #00d2ff; font-size: 22px; font-weight: bold; margin-bottom: 12px; border-bottom: 1px solid #555; padding-bottom: 8px; font-family: 'Rajdhani'; }
     .panel-b { font-size: 15px; line-height: 1.6; color: #ddd; }
     .tag { display: inline-block; background: #004d40; color: #00d2ff; padding: 3px 8px; border-radius: 4px; font-size: 12px; margin-bottom: 10px; }
-
-    /* 關閉按鈕 */
-    .close-btn { 
-      position: absolute; top: 10px; right: 10px; 
-      color: #777; cursor: pointer; font-weight: bold; font-family: sans-serif;
-    }
-    .close-btn:hover { color: white; }
-
-    /* 底部提示 */
-    .controls-hint {
-      text-align: center; padding: 15px;
-      background: linear-gradient(0deg, rgba(0,0,0,0.9), transparent);
-      color: #aaa; font-size: 13px;
-    }
+    .close-btn { position: absolute; top: 10px; right: 10px; color: #777; cursor: pointer; font-weight: bold; font-family: sans-serif; } .close-btn:hover { color: white; }
+    .controls-hint { text-align: center; padding: 15px; background: linear-gradient(0deg, rgba(0,0,0,0.9), transparent); color: #aaa; font-size: 13px; }
   </style>
+
+  <script>
+    // === 核心修正：Look-At Component ===
+    // 這個元件會讓套用的物件永遠面向攝影機
+    AFRAME.registerComponent('look-at-camera', {
+      tick: function () {
+        // 每一幀都執行：讓此物件轉向面向攝影機的位置
+        this.el.object3D.lookAt(this.el.sceneEl.camera.el.object3D.position);
+      }
+    });
+  </script>
+
 </head>
 
 <body>
 
   <div id="ui-layer">
     <div class="header">
-      <div>
-        <span class="title">VILL SYSTEM</span>
-        <span class="subtitle">Module: North Vietnam Supply Chain</span>
-      </div>
+      <div><span class="title">VILL SYSTEM</span><span class="subtitle">Module: North Vietnam Supply Chain</span></div>
       <div style="background:#00d2ff; color:black; font-size:12px; padding:4px 10px; border-radius:4px; font-weight:bold;">LIVE</div>
     </div>
-
     <div id="info-panel">
       <div class="close-btn" onclick="closePanel()">✕</div>
       <div class="panel-h" id="p-title">Data Node</div>
       <div class="panel-b" id="p-content">...</div>
     </div>
-
-    <div class="controls-hint">
-      🖱️ 左鍵拖曳: 旋轉 | 🖱️ 滾輪: 縮放 | 🖱️ 右鍵拖曳: 平移 | 👆 請點擊地圖上的標記
-    </div>
+    <div class="controls-hint">🖱️ 左鍵拖曳: 旋轉 | 🖱️ 滾輪: 縮放 | 🖱️ 右鍵拖曳: 平移 | 👆 請點擊地圖上的標記</div>
   </div>
 
   <a-scene renderer="antialias: true; colorManagement: true;" cursor="rayOrigin: mouse" raycaster="objects: .clickable">
@@ -91,7 +60,6 @@
     </a-assets>
 
     <a-sky color="#0f172a"></a-sky>
-    
     <a-entity id="room">
       <a-plane position="0 0 0" rotation="-90 0 0" width="30" height="30" color="#334155"></a-plane>
       <a-plane position="0 6 0" rotation="90 0 0" width="30" height="30" color="#1e293b"></a-plane>
@@ -121,123 +89,63 @@
     </a-entity>
 
     <a-entity id="step2-ar" position="0 1.2 0" visible="false" scale="0.1 0.1 0.1">
-      
       <a-image src="#map-tex" width="1.8" height="2.6" rotation="-90 0 0" opacity="0.95"></a-image>
-      
       <a-plane width="1.8" height="0.05" rotation="-90 0 0" color="#00d2ff" opacity="0.3" position="0 0.05 0">
          <a-animation attribute="position" from="0 0.05 -1" to="0 0.05 1" dur="2500" dir="alternate" repeat="indefinite"></a-animation>
       </a-plane>
 
       <a-entity position="0.15 0.1 -0.6" class="clickable pin" data-id="samsung">
-        
         <a-box visible="false" width="0.3" height="0.5" depth="0.3" position="0 0.1 0"></a-box>
-        
         <a-sphere radius="0.06" color="#ff0055" position="0 0.15 0">
            <a-animation attribute="scale" to="1.2 1.2 1.2" dur="800" dir="alternate" repeat="indefinite"></a-animation>
         </a-sphere>
         <a-cone radius-bottom="0.01" radius-top="0.06" height="0.15" color="#ff0055" position="0 0.075 0"></a-cone>
-        <a-text value="Samsung" align="center" position="0 0.3 0" scale="0.5 0.5 0.5" color="white" look-at="[camera]"></a-text>
+        
+        <a-text value="Samsung" align="center" position="0 0.35 0" scale="0.8 0.8 0.8" color="white" look-at-camera></a-text>
       </a-entity>
 
       <a-entity position="0.3 0.1 -0.7" class="clickable pin" data-id="apple">
-        
         <a-box visible="false" width="0.3" height="0.5" depth="0.3" position="0 0.1 0"></a-box>
-        
         <a-sphere radius="0.06" color="#ffffff" position="0 0.15 0"></a-sphere>
         <a-cone radius-bottom="0.01" radius-top="0.06" height="0.15" color="#ffffff" position="0 0.075 0"></a-cone>
-        <a-text value="Apple" align="center" position="0 0.3 0" scale="0.5 0.5 0.5" color="white" look-at="[camera]"></a-text>
+        
+        <a-text value="Apple" align="center" position="0 0.35 0" scale="0.8 0.8 0.8" color="white" look-at-camera></a-text>
       </a-entity>
 
     </a-entity>
 
-    <a-entity 
-      camera 
-      look-controls="enabled: false"
-      orbit-controls="
-          target: 0 0.8 0; 
-          minDistance: 0.1; 
-          maxDistance: 10; 
-          initialPosition: 0 2 3.5; 
-          rotateSpeed: 0.5; 
-          zoomSpeed: 2.0; 
-          enableZoom: true; 
-          enablePan: true; 
-          screenSpacePanning: true;">
-    </a-entity>
-
+    <a-entity camera look-controls="enabled: false" orbit-controls="target: 0 0.8 0; minDistance: 0.1; maxDistance: 10; initialPosition: 0 2 3.5; rotateSpeed: 0.5; zoomSpeed: 2.0; enableZoom: true; enablePan: true; screenSpacePanning: true;"></a-entity>
   </a-scene>
 
   <script>
-    // 1. 生成木紋 (避免黑屏)
     const ctx = document.getElementById('wood-tex').getContext('2d');
-    ctx.fillStyle = '#3e2723'; ctx.fillRect(0,0,512,512);
-    ctx.strokeStyle = '#2e1c18'; ctx.lineWidth = 4;
-    for(let i=0;i<40;i++){ctx.beginPath();ctx.moveTo(0,Math.random()*512);ctx.bezierCurveTo(150,Math.random()*512,350,Math.random()*512,512,Math.random()*512);ctx.stroke();}
+    ctx.fillStyle = '#3e2723'; ctx.fillRect(0,0,512,512); ctx.strokeStyle = '#2e1c18'; ctx.lineWidth = 4; for(let i=0;i<40;i++){ctx.beginPath();ctx.moveTo(0,Math.random()*512);ctx.bezierCurveTo(150,Math.random()*512,350,Math.random()*512,512,Math.random()*512);ctx.stroke();}
 
-    // 2. 互動邏輯
     const flat = document.getElementById('step1-flat');
     const ar = document.getElementById('step2-ar');
     const panel = document.getElementById('info-panel');
     const pTitle = document.getElementById('p-title');
     const pContent = document.getElementById('p-content');
 
-    // 啟動 3D
     window.activateAR = function() {
-      flat.setAttribute('visible', 'false');
-      ar.setAttribute('visible', 'true');
+      flat.setAttribute('visible', 'false'); ar.setAttribute('visible', 'true');
       ar.setAttribute('animation', 'property: scale; to: 1 1 1; dur: 1000; easing: easeOutElastic');
     };
+    window.closePanel = function() { panel.classList.remove('active'); };
 
-    // 關閉面板
-    window.closePanel = function() {
-      panel.classList.remove('active');
-    };
-
-    // 3. 資料庫 (聚焦北越)
     const db = {
-      samsung: { 
-        title: "SAMSUNG ELECTRONICS", 
-        body: "<span class='tag'>LOCATION: BAC NINH</span><br><br><b>投資規模:</b> $19.2 Billion<br><b>關鍵地位:</b> 全球 50% 的 Galaxy 手機在此生產。<br><b>地理優勢:</b> 距離內排機場 (Noi Bai) 僅 40 分鐘，方便空運出口。" 
-      },
-      apple: { 
-        title: "APPLE / FOXCONN", 
-        body: "<span class='tag'>LOCATION: BAC GIANG</span><br><br><b>主要產品:</b> iPad, Apple Watch<br><b>戰略意義:</b> Apple 供應鏈去風險化 (De-risking) 的核心。正逐步將 MacBook 產線移入此區。" 
-      }
+      samsung: { title: "SAMSUNG ELECTRONICS", body: "<span class='tag'>LOCATION: BAC NINH</span><br><br><b>投資規模:</b> $19.2 Billion<br><b>關鍵地位:</b> 全球 50% 的 Galaxy 手機在此生產。<br><b>地理優勢:</b> 距離內排機場 (Noi Bai) 僅 40 分鐘，方便空運出口。" },
+      apple: { title: "APPLE / FOXCONN", body: "<span class='tag'>LOCATION: BAC GIANG</span><br><br><b>主要產品:</b> iPad, Apple Watch<br><b>戰略意義:</b> Apple 供應鏈去風險化 (De-risking) 的核心。正逐步將 MacBook 產線移入此區。" }
     };
 
-    // 4. 點擊事件綁定 (加入 console.log 方便除錯)
     document.querySelectorAll('.pin').forEach(pin => {
-      
-      // 點擊
       pin.addEventListener('click', function(e) {
-        e.stopPropagation(); // 防止點到背景
-        console.log("Pin Clicked:", this.getAttribute('data-id')); // 除錯訊息
-
-        const data = db[this.getAttribute('data-id')];
-        pTitle.innerHTML = data.title;
-        pContent.innerHTML = data.body;
-        panel.classList.add('active');
+        e.stopPropagation(); const data = db[this.getAttribute('data-id')];
+        pTitle.innerHTML = data.title; pContent.innerHTML = data.body; panel.classList.add('active');
       });
-
-      // 滑鼠懸停 (變大)
-      pin.addEventListener('mouseenter', function() { 
-        this.object3D.scale.set(1.3, 1.3, 1.3); 
-        document.body.style.cursor = 'pointer';
-      });
-      
-      // 滑鼠移開 (恢復)
-      pin.addEventListener('mouseleave', function() { 
-        this.object3D.scale.set(1, 1, 1); 
-        document.body.style.cursor = 'default';
-      });
+      pin.addEventListener('mouseenter', function() { this.object3D.scale.set(1.3, 1.3, 1.3); document.body.style.cursor = 'pointer'; });
+      pin.addEventListener('mouseleave', function() { this.object3D.scale.set(1, 1, 1); document.body.style.cursor = 'default'; });
     });
-
-    // 簡易 Look-at (讓文字面向鏡頭)
-    AFRAME.registerComponent('look-at', {
-      schema: { type: 'selector' },
-      tick: function () { this.el.object3D.lookAt(this.el.sceneEl.camera.el.object3D.position); }
-    });
-
   </script>
 </body>
 </html>
