@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>VILL: North Vietnam Strategy (V14 Final)</title>
+  <title>VILL: North Vietnam Strategy (V16)</title>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://unpkg.com/aframe-orbit-controls@1.3.0/dist/aframe-orbit-controls.min.js"></script>
   
@@ -10,7 +10,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&family=Noto+Sans+TC:wght@400;700&display=swap');
     body { margin: 0; overflow: hidden; font-family: 'Noto Sans TC', sans-serif; background-color: #1a1a1a; }
 
-    /* UI 層保持不變 */
+    /* UI 層 */
     #ui-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; display: flex; flex-direction: column; justify-content: space-between; }
     .header { background: rgba(10, 20, 30, 0.95); border-bottom: 3px solid #00d2ff; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; pointer-events: auto; }
     .title { color: #00d2ff; font-family: 'Rajdhani', sans-serif; font-size: 28px; font-weight: bold; letter-spacing: 2px; }
@@ -25,9 +25,20 @@
   </style>
 
   <script>
-    // === Look-At Component ===
-    AFRAME.registerComponent('look-at-camera', {
-      tick: function () { this.el.object3D.lookAt(this.el.sceneEl.camera.el.object3D.position); }
+    // === 核心修正：Billboard Component (告示牌模式) ===
+    // 強制物件忽略父層旋轉，直接面向攝影機世界座標
+    AFRAME.registerComponent('billboard', {
+      tick: function () {
+        var camera = this.el.sceneEl.camera;
+        if (!camera) return;
+        
+        // 1. 抓取攝影機的世界座標
+        var cameraWorldPosition = new THREE.Vector3();
+        camera.el.object3D.getWorldPosition(cameraWorldPosition);
+
+        // 2. 讓物件直接看著攝影機
+        this.el.object3D.lookAt(cameraWorldPosition);
+      }
     });
   </script>
 
@@ -90,24 +101,31 @@
       </a-plane>
 
       <a-entity position="0.05 0.1 -0.65" class="clickable pin" data-id="samsung">
+        
         <a-box visible="false" width="0.3" height="0.5" depth="0.3" position="0 0.1 0"></a-box>
+        
         <a-sphere radius="0.06" color="#ff0055" position="0 0.15 0">
            <a-animation attribute="scale" to="1.2 1.2 1.2" dur="800" dir="alternate" repeat="indefinite"></a-animation>
         </a-sphere>
+        
         <a-cone radius-bottom="0.01" radius-top="0.06" height="0.15" color="#ff0055" position="0 0.075 0"></a-cone>
         
-        <a-entity position="0 0.45 0" look-at-camera>
+        <a-entity position="0 0.45 0" billboard>
           <a-plane color="black" opacity="0.8" width="1.2" height="0.35"></a-plane>
           <a-text value="SAMSUNG" align="center" color="#fff" width="4" position="0 0 0.01"></a-text>
         </a-entity>
       </a-entity>
 
+
       <a-entity position="-0.05 0.1 -0.48" class="clickable pin" data-id="apple">
+        
         <a-box visible="false" width="0.3" height="0.5" depth="0.3" position="0 0.1 0"></a-box>
+        
         <a-sphere radius="0.06" color="#ffffff" position="0 0.15 0"></a-sphere>
+        
         <a-cone radius-bottom="0.01" radius-top="0.06" height="0.15" color="#ffffff" position="0 0.075 0"></a-cone>
         
-        <a-entity position="0 0.45 0" look-at-camera>
+        <a-entity position="0 0.45 0" billboard>
           <a-plane color="black" opacity="0.8" width="1.0" height="0.35"></a-plane>
           <a-text value="APPLE" align="center" color="#fff" width="4" position="0 0 0.01"></a-text>
         </a-entity>
@@ -150,10 +168,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
