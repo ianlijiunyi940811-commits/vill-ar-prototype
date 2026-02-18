@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>VILL: V25 Final Fixes</title>
+  <title>VILL: V26 Targeted Fixes</title>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://unpkg.com/aframe-orbit-controls@1.3.0/dist/aframe-orbit-controls.min.js"></script>
   
@@ -82,20 +82,19 @@
 
     <a-entity id="step2-ar" position="0 1.2 0" visible="false" scale="0.1 0.1 0.1">
       
-      <a-image src="#map-tex" width="1.8" height="2.6" rotation="-90 0 0" material="shader: flat; color: #fff"></a-image>
+      <a-image src="#map-tex" width="1.8" height="2.6" rotation="-90 0 0" material="shader: flat"></a-image>
       
       <a-plane width="1.8" height="0.05" rotation="-90 0 0" color="#00d2ff" opacity="0.3" position="0 0.05 0">
          <a-animation attribute="position" from="0 0.05 -1" to="0 0.05 1" dur="2500" dir="alternate" repeat="indefinite"></a-animation>
       </a-plane>
 
       <a-entity position="0.05 0.1 -0.65" class="pin">
-        <a-box class="clickable" width="0.5" height="1.0" depth="0.5" position="0 0.2 0" material="opacity: 0; transparent: true" onclick="toggleCard('card-samsung')"></a-box>
+        <a-box class="clickable" width="0.6" height="1.0" depth="0.6" position="0 0.2 0" material="opacity: 0; transparent: true" onclick="toggleCard('card-samsung')"></a-box>
         
         <a-sphere radius="0.06" color="#ff0055" position="0 0.15 0">
            <a-animation attribute="scale" to="1.2 1.2 1.2" dur="800" dir="alternate" repeat="indefinite"></a-animation>
         </a-sphere>
         <a-cone radius-bottom="0.01" radius-top="0.06" height="0.15" color="#ff0055" position="0 0.075 0"></a-cone>
-        
         <a-entity position="0 0.45 0" smart-label>
            <a-text value="SAMSUNG" align="center" color="black" width="4" position="0.005 -0.005 -0.01" scale="0.5 0.5 0.5"></a-text>
            <a-text value="SAMSUNG" align="center" color="#fff" width="4" position="0 0 0" scale="0.5 0.5 0.5"></a-text>
@@ -103,26 +102,26 @@
 
         <a-entity id="card-samsung" position="0.8 1.4 0" visible="false" scale="0 0 0" smart-label>
           <a-box width="3.2" height="0.2" depth="0.02" color="#007bff" position="0 1.0 0"></a-box>
-          <a-box width="3.2" height="2.0" depth="0.02" color="#003b46" material="opacity: 0.98" position="0 -0.1 0"></a-box>
-          <a-box width="3.22" height="2.22" depth="0.01" color="#00d2ff" material="opacity: 0.4; transparent: true" position="0 0 -0.01"></a-box>
+          
+          <a-box width="3.2" height="2.3" depth="0.02" color="#003b46" material="opacity: 0.98" position="0 -0.25 0"></a-box>
+          <a-box width="3.22" height="2.52" depth="0.01" color="#00d2ff" material="opacity: 0.4; transparent: true" position="0 0 -0.01"></a-box>
           
           <a-text value="SAMSUNG (Bac Ninh)" color="#fff" align="center" position="0 1.0 0.03" width="4.5" font="roboto"></a-text>
           
-          <a-text value="(A) Low Cost & Proximity:\nClose to China border (12hr transport). Low switching cost for supply chain.\n\n(B) Risk Diversification:\nStrategic move to reduce reliance on single production base (China).\n\n(C) Labor Advantage:\nAccess to large-scale, cost-competitive manufacturing workforce.\n\n(D) Gov Support:\nBac Ninh offers tax breaks & land specifically for electronics.\n\n(E) Cluster Effect:\nAs first mover, Samsung attracted logistics/vendors to cluster here." 
-                  color="#e0f7fa" align="left" anchor="center" baseline="top" position="0 0.8 0.03" width="2.8" wrapCount="55" lineHeight="55" font="roboto"></a-text>
+          <a-text value="(A) Low Cost & Proximity:\nClose to China border (12hr transport). Low switching cost.\n\n(B) Risk Diversification:\nStrategic move to reduce reliance on single production base.\n\n(C) Labor Advantage:\nAccess to large-scale, cost-competitive workforce.\n\n(D) Gov Support:\nTax breaks & land support specifically for electronics.\n\n(E) Cluster Effect:\nAttracted logistics/vendors to cluster as first mover." 
+                  color="#e0f7fa" align="left" anchor="center" baseline="top" position="0 0.85 0.03" width="2.8" wrapCount="58" lineHeight="52" font="roboto"></a-text>
           
-          <a-text value="[ CLICK TO CLOSE ]" color="#4dd0e1" align="center" position="0 -0.95 0.03" width="2.5"></a-text>
-          <a-plane class="clickable" width="3.2" height="2.2" position="0 0 0.05" visible="false" onclick="toggleCard('card-samsung')"></a-plane>
+          <a-text value="[ CLICK TO CLOSE ]" color="#4dd0e1" align="center" position="0 -1.2 0.03" width="2.5"></a-text>
+          <a-plane class="clickable" width="3.2" height="2.5" position="0 0 0.05" visible="false" onclick="toggleCard('card-samsung')"></a-plane>
         </a-entity>
       </a-entity>
 
 
       <a-entity position="-0.05 0.1 -0.48" class="pin">
-        <a-box class="clickable" width="0.5" height="1.0" depth="0.5" position="0 0.2 0" material="opacity: 0; transparent: true" onclick="toggleCard('card-apple')"></a-box>
+        <a-box class="clickable" width="0.6" height="1.0" depth="0.6" position="0 0.2 0" material="opacity: 0; transparent: true" onclick="toggleCard('card-apple')"></a-box>
         
         <a-sphere radius="0.06" color="#ffffff" position="0 0.15 0"></a-sphere>
         <a-cone radius-bottom="0.01" radius-top="0.06" height="0.15" color="#ffffff" position="0 0.075 0"></a-cone>
-        
         <a-entity position="0 0.45 0" smart-label>
            <a-text value="APPLE" align="center" color="black" width="4" position="0.005 -0.005 -0.01" scale="0.5 0.5 0.5"></a-text>
            <a-text value="APPLE" align="center" color="#fff" width="4" position="0 0 0" scale="0.5 0.5 0.5"></a-text>
@@ -130,16 +129,17 @@
 
         <a-entity id="card-apple" position="0.8 1.4 0" visible="false" scale="0 0 0" smart-label>
           <a-box width="3.2" height="0.2" depth="0.02" color="#bdc3c7" position="0 1.0 0"></a-box>
-          <a-box width="3.2" height="2.0" depth="0.02" color="#003b46" material="opacity: 0.98" position="0 -0.1 0"></a-box>
-          <a-box width="3.22" height="2.22" depth="0.01" color="#00d2ff" material="opacity: 0.4; transparent: true" position="0 0 -0.01"></a-box>
+          
+          <a-box width="3.2" height="2.3" depth="0.02" color="#003b46" material="opacity: 0.98" position="0 -0.25 0"></a-box>
+          <a-box width="3.22" height="2.52" depth="0.01" color="#00d2ff" material="opacity: 0.4; transparent: true" position="0 0 -0.01"></a-box>
           
           <a-text value="APPLE Suppliers (Bac Ninh)" color="#000" align="center" position="0 1.0 0.03" width="4.5" font="roboto"></a-text>
           
-          <a-text value="(A) The Electronics Core:\nNear Hanoi, Noi Bai Airport & Hai Phong Port. Critical for high-freq export.\n\n(B) Mature Infrastructure:\nReady-made industrial parks (VSIP) allow fast ramp-up for suppliers.\n\n(C) Supply Chain Proximity:\nSharing the ecosystem (logistics/talent) already built by Samsung.\n\n(D) Aggregation:\nHighest concentration of Apple suppliers creating a specialized cluster.\n\n(E) China+1 Strategy:\nFoxconn/Luxshare expanding here for resilience and de-risking." 
-                  color="#e0f7fa" align="left" anchor="center" baseline="top" position="0 0.8 0.03" width="2.8" wrapCount="55" lineHeight="55" font="roboto"></a-text>
+          <a-text value="(A) The Electronics Core:\nNear Hanoi, Airport & Port. Critical for high-freq export.\n\n(B) Mature Infrastructure:\nReady-made industrial parks allow fast ramp-up.\n\n(C) Supply Chain Proximity:\nSharing ecosystem (logistics/talent) built by Samsung.\n\n(D) Aggregation:\nHighest concentration of Apple suppliers creating cluster.\n\n(E) China+1 Strategy:\nFoxconn/Luxshare expanding here for resilience." 
+                  color="#e0f7fa" align="left" anchor="center" baseline="top" position="0 0.85 0.03" width="2.8" wrapCount="58" lineHeight="52" font="roboto"></a-text>
           
-          <a-text value="[ CLICK TO CLOSE ]" color="#4dd0e1" align="center" position="0 -0.95 0.03" width="2.5"></a-text>
-          <a-plane class="clickable" width="3.2" height="2.2" position="0 0 0.05" visible="false" onclick="toggleCard('card-apple')"></a-plane>
+          <a-text value="[ CLICK TO CLOSE ]" color="#4dd0e1" align="center" position="0 -1.2 0.03" width="2.5"></a-text>
+          <a-plane class="clickable" width="3.2" height="2.5" position="0 0 0.05" visible="false" onclick="toggleCard('card-apple')"></a-plane>
         </a-entity>
       </a-entity>
 
@@ -149,7 +149,7 @@
   </a-scene>
 
   <script>
-    // 材質生成
+    // 材質生成 (未更動)
     const c1 = document.getElementById('wood-tex').getContext('2d');
     c1.fillStyle = '#6d4c41'; c1.fillRect(0,0,512,512); c1.strokeStyle = '#4e342e'; c1.lineWidth = 3;
     for(let i=0;i<60;i++){c1.beginPath();c1.moveTo(0,Math.random()*512);c1.bezierCurveTo(150,Math.random()*512,350,Math.random()*512,512,Math.random()*512);c1.stroke();}
@@ -175,14 +175,10 @@
       const card = document.getElementById(id);
       const isVisible = card.getAttribute('visible');
       
-      // Close logic
       if (isVisible) {
         card.setAttribute('animation', 'property: scale; to: 0 0 0; dur: 300; easing: easeInBack');
         setTimeout(() => card.setAttribute('visible', 'false'), 300);
-      } 
-      // Open logic
-      else {
-        // Close others first
+      } else {
         document.querySelectorAll('[id^="card-"]').forEach(c => {
            if(c.getAttribute('visible')) {
              c.setAttribute('visible', 'false');
