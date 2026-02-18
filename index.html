@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>VILL: V23 Final Visuals</title>
+  <title>VILL: V24 Dark Peacock UI</title>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://unpkg.com/aframe-orbit-controls@1.3.0/dist/aframe-orbit-controls.min.js"></script>
   
@@ -101,17 +101,22 @@
            <a-text value="SAMSUNG" align="center" color="#fff" width="4" position="0 0 0" scale="0.5 0.5 0.5"></a-text>
         </a-entity>
 
-        <a-entity id="card-samsung" position="0.8 1.2 0" visible="false" scale="0 0 0" smart-label>
-          <a-box width="2.4" height="0.2" depth="0.02" color="#007bff" position="0 0.8 0"></a-box>
-          <a-box width="2.4" height="1.6" depth="0.02" color="#111" material="opacity: 0.95" position="0 -0.1 0"></a-box>
+        <a-entity id="card-samsung" position="0.8 1.4 0" visible="false" scale="0 0 0" smart-label>
           
-          <a-text value="STRATEGIC ANALYSIS: SAMSUNG (Bac Ninh)" color="#fff" align="center" position="0 0.8 0.03" width="3.5" font="roboto"></a-text>
+          <a-box width="3.2" height="0.2" depth="0.02" color="#007bff" position="0 1.0 0"></a-box>
           
-          <a-text value="Why North Vietnam?\n\n(A) Supply Chain Proximity:\nClose to China border. Components delivered in 12hrs. Low switching cost.\n\n(B) Risk Diversification:\nKey part of global restructuring to reduce reliance on single production base.\n\n(C) Labor & Cost:\nAccess to large-scale, cost-competitive manufacturing workforce.\n\n(D) Government Incentives:\nBac Ninh offers specific tax breaks and admin support for electronics.\n\n(E) Cluster Effect:\nAs a first mover, Samsung attracted logistics and sub-suppliers." 
-                  color="#ddd" align="left" position="-1.1 -0.1 0.03" width="2.3" wrapCount="55" lineHeight="50" font="roboto"></a-text>
+          <a-box width="3.2" height="2.0" depth="0.02" color="#003b46" material="opacity: 0.95" position="0 -0.1 0"></a-box>
           
-          <a-text value="[ CLICK TO CLOSE ]" color="#aaa" align="center" position="0 -0.8 0.03" width="2"></a-text>
-          <a-plane class="clickable" width="2.4" height="1.8" position="0 0 0.05" visible="false" onclick="toggleCard('card-samsung')"></a-plane>
+          <a-box width="3.22" height="2.22" depth="0.01" color="#00d2ff" material="opacity: 0.4; transparent: true" position="0 0 -0.01"></a-box>
+          
+          <a-text value="STRATEGIC ANALYSIS: SAMSUNG (Bac Ninh)" color="#fff" align="center" position="0 1.0 0.03" width="4.5" font="roboto"></a-text>
+          
+          <a-text value="Why North Vietnam?\n\n(A) Supply Chain Proximity:\nNear China border. Components delivered in 12hrs. Low switching cost.\n\n(B) Risk Diversification:\nKey part of global restructuring to reduce reliance on single production base.\n\n(C) Labor & Cost:\nAccess to large-scale, cost-competitive manufacturing workforce.\n\n(D) Government Incentives:\nBac Ninh offers specific tax breaks and admin support for electronics.\n\n(E) Cluster Effect:\nAs a first mover, Samsung attracted logistics and sub-suppliers." 
+                  color="#e0f7fa" align="left" position="-1.45 -0.1 0.03" width="3.0" wrapCount="65" lineHeight="50" font="roboto"></a-text>
+          
+          <a-text value="[ CLICK TO CLOSE ]" color="#4dd0e1" align="center" position="0 -0.95 0.03" width="2.5"></a-text>
+          
+          <a-plane class="clickable" width="3.2" height="2.2" position="0 0 0.05" visible="false" onclick="toggleCard('card-samsung')"></a-plane>
         </a-entity>
       </a-entity>
 
@@ -125,17 +130,21 @@
            <a-text value="APPLE" align="center" color="#fff" width="4" position="0 0 0" scale="0.5 0.5 0.5"></a-text>
         </a-entity>
 
-        <a-entity id="card-apple" position="0.8 1.2 0" visible="false" scale="0 0 0" smart-label>
-          <a-box width="2.4" height="0.2" depth="0.02" color="#bdc3c7" position="0 0.8 0"></a-box>
-          <a-box width="2.4" height="1.6" depth="0.02" color="#111" material="opacity: 0.95" position="0 -0.1 0"></a-box>
+        <a-entity id="card-apple" position="0.8 1.4 0" visible="false" scale="0 0 0" smart-label>
           
-          <a-text value="STRATEGIC ANALYSIS: APPLE (Suppliers)" color="#000" align="center" position="0 0.8 0.03" width="3.5" font="roboto"></a-text>
+          <a-box width="3.2" height="0.2" depth="0.02" color="#bdc3c7" position="0 1.0 0"></a-box>
+          
+          <a-box width="3.2" height="2.0" depth="0.02" color="#003b46" material="opacity: 0.95" position="0 -0.1 0"></a-box>
+          
+          <a-box width="3.22" height="2.22" depth="0.01" color="#00d2ff" material="opacity: 0.4; transparent: true" position="0 0 -0.01"></a-box>
+          
+          <a-text value="STRATEGIC ANALYSIS: APPLE (Suppliers)" color="#000" align="center" position="0 1.0 0.03" width="4.5" font="roboto"></a-text>
           
           <a-text value="Why Bac Ninh?\n\n(A) The Electronics Core:\nNear Hanoi, Noi Bai Airport & Hai Phong Port. Critical for high-freq export.\n\n(B) Mature Infrastructure:\nReady-made industrial parks (VSIP) allow fast ramp-up for suppliers.\n\n(C) Supply Chain Proximity:\nSharing the ecosystem (logistics/talent) already built by Samsung.\n\n(D) Aggregation Phenomenon:\nHighest concentration of Apple suppliers creating a specialized cluster.\n\n(E) China+1 Strategy:\nFoxconn/Luxshare expanding here for resilience and de-risking." 
-                  color="#ddd" align="left" position="-1.1 -0.1 0.03" width="2.3" wrapCount="55" lineHeight="50" font="roboto"></a-text>
+                  color="#e0f7fa" align="left" position="-1.45 -0.1 0.03" width="3.0" wrapCount="65" lineHeight="50" font="roboto"></a-text>
           
-          <a-text value="[ CLICK TO CLOSE ]" color="#aaa" align="center" position="0 -0.8 0.03" width="2"></a-text>
-          <a-plane class="clickable" width="2.4" height="1.8" position="0 0 0.05" visible="false" onclick="toggleCard('card-apple')"></a-plane>
+          <a-text value="[ CLICK TO CLOSE ]" color="#4dd0e1" align="center" position="0 -0.95 0.03" width="2.5"></a-text>
+          <a-plane class="clickable" width="3.2" height="2.2" position="0 0 0.05" visible="false" onclick="toggleCard('card-apple')"></a-plane>
         </a-entity>
       </a-entity>
 
