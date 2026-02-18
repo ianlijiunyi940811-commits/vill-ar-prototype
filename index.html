@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>VILL: Final Stable Simulator</title>
+  <title>VILL: North Vietnam Strategy</title>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://unpkg.com/aframe-orbit-controls@1.3.0/dist/aframe-orbit-controls.min.js"></script>
   
@@ -19,39 +19,45 @@
 
     /* 頂部標題 */
     .header {
-      background: rgba(0, 0, 0, 0.85);
-      border-bottom: 2px solid #00d2ff;
-      padding: 15px 30px;
+      background: rgba(10, 20, 30, 0.95);
+      border-bottom: 3px solid #00d2ff;
+      padding: 20px 40px;
       display: flex; justify-content: space-between; align-items: center;
-      backdrop-filter: blur(4px);
+      pointer-events: auto;
     }
-    .title { color: #00d2ff; font-family: 'Rajdhani', sans-serif; font-size: 24px; font-weight: bold; letter-spacing: 1px; }
-    .subtitle { color: #aaa; font-size: 14px; margin-left: 10px; }
+    .title { color: #00d2ff; font-family: 'Rajdhani', sans-serif; font-size: 28px; font-weight: bold; letter-spacing: 2px; }
+    .subtitle { color: #fff; font-size: 14px; margin-left: 15px; opacity: 0.8; }
 
-    /* 右側資料面板 */
+    /* 右側資料面板 (互動核心) */
     #info-panel {
-      position: absolute; top: 15%; right: 20px; width: 300px;
-      background: rgba(20, 30, 40, 0.95);
-      border: 1px solid #444; border-left: 5px solid #00d2ff;
-      border-radius: 8px; padding: 20px;
+      position: absolute; top: 120px; right: 30px; width: 340px;
+      background: rgba(16, 24, 32, 0.98);
+      border: 1px solid #444; border-left: 6px solid #00d2ff;
+      border-radius: 8px; padding: 25px;
       color: white;
-      transform: translateX(120%); transition: transform 0.3s ease-out;
-      pointer-events: auto; /* 允許點擊 */
-      box-shadow: -5px 5px 20px rgba(0,0,0,0.5);
+      transform: translateX(130%); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      pointer-events: auto; /* 關鍵：允許點擊 */
+      box-shadow: -10px 10px 40px rgba(0,0,0,0.6);
     }
     #info-panel.active { transform: translateX(0); }
 
-    .panel-h { color: #00d2ff; font-size: 20px; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid #555; padding-bottom: 5px; font-family: 'Rajdhani'; }
-    .panel-b { font-size: 14px; line-height: 1.5; color: #ddd; }
+    .panel-h { color: #00d2ff; font-size: 22px; font-weight: bold; margin-bottom: 12px; border-bottom: 1px solid #555; padding-bottom: 8px; font-family: 'Rajdhani'; }
+    .panel-b { font-size: 15px; line-height: 1.6; color: #ddd; }
+    .tag { display: inline-block; background: #004d40; color: #00d2ff; padding: 3px 8px; border-radius: 4px; font-size: 12px; margin-bottom: 10px; }
 
-    /* 底部操作提示 */
+    /* 關閉按鈕 */
+    .close-btn { 
+      position: absolute; top: 10px; right: 10px; 
+      color: #777; cursor: pointer; font-weight: bold; font-family: sans-serif;
+    }
+    .close-btn:hover { color: white; }
+
+    /* 底部提示 */
     .controls-hint {
       text-align: center; padding: 15px;
-      background: rgba(0,0,0,0.8); color: #ccc; font-size: 13px;
+      background: linear-gradient(0deg, rgba(0,0,0,0.9), transparent);
+      color: #aaa; font-size: 13px;
     }
-    
-    /* 按鈕樣式 */
-    .btn { background: #00d2ff; color: black; border: none; padding: 5px 10px; cursor: pointer; font-weight: bold; border-radius: 4px; margin-top: 10px; }
   </style>
 </head>
 
@@ -59,18 +65,21 @@
 
   <div id="ui-layer">
     <div class="header">
-      <div><span class="title">VILL SYSTEM</span><span class="subtitle">Semiconductor Strategy Sim</span></div>
-      <div style="background:#00d2ff; color:black; font-size:12px; padding:3px 8px; border-radius:3px; font-weight:bold;">LIVE</div>
+      <div>
+        <span class="title">VILL SYSTEM</span>
+        <span class="subtitle">Module: North Vietnam Supply Chain</span>
+      </div>
+      <div style="background:#00d2ff; color:black; font-size:12px; padding:4px 10px; border-radius:4px; font-weight:bold;">LIVE</div>
     </div>
 
     <div id="info-panel">
+      <div class="close-btn" onclick="closePanel()">✕</div>
       <div class="panel-h" id="p-title">Data Node</div>
       <div class="panel-b" id="p-content">...</div>
-      <button class="btn" onclick="document.getElementById('info-panel').classList.remove('active')">關閉</button>
     </div>
 
     <div class="controls-hint">
-      🖱️ 滾輪: 放大縮小 | 🖱️ 左鍵拖曳: 旋轉 | 🖱️ 右鍵拖曳: 平移 | 👆 點擊標記查看數據
+      🖱️ 左鍵拖曳: 旋轉 | 🖱️ 滾輪: 縮放 | 🖱️ 右鍵拖曳: 平移 | 👆 請點擊地圖上的標記
     </div>
   </div>
 
@@ -78,77 +87,94 @@
     
     <a-assets>
       <img id="map-tex" src="./map.jpg" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Vietnam_location_map_topographic.png/640px-Vietnam_location_map_topographic.png'">
-      <canvas id="floor-tex" width="512" height="512"></canvas>
+      <canvas id="wood-tex" width="512" height="512"></canvas>
     </a-assets>
 
-    <a-sky color="#121212"></a-sky>
+    <a-sky color="#0f172a"></a-sky>
     
     <a-entity id="room">
-      <a-plane position="0 0 0" rotation="-90 0 0" width="20" height="20" material="src:#floor-tex; roughness:0.6; color:#888"></a-plane>
-      <a-plane position="0 5 0" rotation="90 0 0" width="20" height="20" color="#333"></a-plane>
-      <a-plane position="0 2.5 -6" width="20" height="5" color="#e0e0e0"></a-plane> <a-plane position="-6 2.5 0" rotation="0 90 0" width="20" height="5" color="#d0d0d0"></a-plane> <a-plane position="6 2.5 0" rotation="0 -90 0" width="20" height="5" color="#d0d0d0"></a-plane> <a-plane position="-5.9 2.5 0" rotation="0 90 0" width="4" height="2" color="#fff" material="emissive:#fff; emissiveIntensity:0.5"></a-plane>
+      <a-plane position="0 0 0" rotation="-90 0 0" width="30" height="30" color="#334155"></a-plane>
+      <a-plane position="0 6 0" rotation="90 0 0" width="30" height="30" color="#1e293b"></a-plane>
+      <a-plane position="0 3 -8" width="30" height="6" color="#cbd5e1"></a-plane>
+      <a-plane position="-8 3 0" rotation="0 90 0" width="30" height="6" color="#94a3b8"></a-plane>
+      <a-plane position="8 3 0" rotation="0 -90 0" width="30" height="6" color="#94a3b8"></a-plane>
+      <a-plane position="-7.9 3 0" rotation="0 90 0" width="6" height="3" color="#fff" material="emissive:#fff; emissiveIntensity:0.6"></a-plane>
     </a-entity>
 
-    <a-light type="ambient" intensity="0.6"></a-light>
-    <a-light type="directional" position="-2 4 2" intensity="0.5" castShadow="true"></a-light>
-    <a-light type="spot" position="0 6 0" target="#table" intensity="1.2" penumbra="0.5"></a-light>
+    <a-light type="ambient" intensity="0.5"></a-light>
+    <a-light type="directional" position="-5 5 2" intensity="0.6" castShadow="true"></a-light>
+    <a-light type="spot" position="0 7 0" target="#table" intensity="1.2" penumbra="0.4"></a-light>
 
     <a-entity id="table" position="0 0 0">
-      <a-cylinder position="0 0.8 0" radius="1.5" height="0.05" color="#3e2723" material="roughness:0.4"></a-cylinder>
-      <a-cylinder position="0 0.4 0" radius="0.2" height="0.8" color="#111"></a-cylinder>
-      <a-cylinder position="0 0.02 0" radius="0.8" height="0.05" color="#111"></a-cylinder>
-      <a-torus position="0 0.8 0" rotation="90 0 0" radius="1.5" radius-tubular="0.01" color="#00d2ff" material="emissive:#00d2ff; emissiveIntensity:1"></a-torus>
+      <a-cylinder position="0 0.8 0" radius="2" height="0.1" material="src: #wood-tex; color: #3e2723; roughness: 0.5"></a-cylinder>
+      <a-cylinder position="0 0.4 0" radius="0.3" height="0.8" color="#222"></a-cylinder>
+      <a-cylinder position="0 0.02 0" radius="1.0" height="0.05" color="#111"></a-cylinder>
+      <a-torus position="0 0.8 0" rotation="90 0 0" radius="2" radius-tubular="0.015" color="#00d2ff" material="emissive:#00d2ff; emissiveIntensity:0.8"></a-torus>
     </a-entity>
 
-    <a-entity id="step1-flat" position="0 0.84 0" rotation="-90 0 0">
-      <a-plane width="1.2" height="1.6" color="#fff" class="clickable" onclick="startAR()">
-        <a-image src="#map-tex" width="1.1" height="1.5" position="0 0 0.01"></a-image>
-        <a-text value="CLICK TO START" align="center" position="0 0 0.1" color="red" scale="0.8 0.8 0.8"></a-text>
+    <a-entity id="step1-flat" position="0 0.86 0" rotation="-90 0 0">
+      <a-plane width="1.4" height="2" color="#fff" class="clickable" onclick="activateAR()">
+        <a-image src="#map-tex" width="1.3" height="1.9" position="0 0 0.01"></a-image>
+        <a-plane width="1.4" height="2" position="0 0 0.02" color="#00d2ff" opacity="0" animation__hover="property: opacity; from: 0; to: 0.2; dur: 200; startEvents: mouseenter; pauseEvents: mouseleave"></a-plane>
+        <a-text value="CLICK TO ACTIVATE" align="center" position="0 0 0.05" color="red" scale="1 1 1" font="roboto"></a-text>
       </a-plane>
     </a-entity>
 
     <a-entity id="step2-ar" position="0 1.2 0" visible="false" scale="0.1 0.1 0.1">
       
-      <a-image src="#map-tex" width="1.5" height="2" rotation="-90 0 0" opacity="0.95"></a-image>
+      <a-image src="#map-tex" width="1.8" height="2.6" rotation="-90 0 0" opacity="0.95"></a-image>
       
-      <a-plane width="1.5" height="0.05" rotation="-90 0 0" color="#00d2ff" opacity="0.3" position="0 0.05 0">
-         <a-animation attribute="position" from="0 0.05 -0.8" to="0 0.05 0.8" dur="2000" dir="alternate" repeat="indefinite"></a-animation>
+      <a-plane width="1.8" height="0.05" rotation="-90 0 0" color="#00d2ff" opacity="0.3" position="0 0.05 0">
+         <a-animation attribute="position" from="0 0.05 -1" to="0 0.05 1" dur="2500" dir="alternate" repeat="indefinite"></a-animation>
       </a-plane>
 
-      <a-entity position="-0.2 0.2 -0.5" class="clickable pin" data-id="samsung">
-        <a-box visible="false" width="0.2" height="0.5" depth="0.2"></a-box> 
-        <a-sphere radius="0.08" color="#ff0055" position="0 0.1 0"></a-sphere>
-        <a-cone radius-bottom="0.01" radius-top="0.08" height="0.2" color="#ff0055" position="0 0 0"></a-cone>
+      <a-entity position="0.15 0.1 -0.6" class="clickable pin" data-id="samsung">
+        
+        <a-box visible="false" width="0.3" height="0.5" depth="0.3" position="0 0.1 0"></a-box>
+        
+        <a-sphere radius="0.06" color="#ff0055" position="0 0.15 0">
+           <a-animation attribute="scale" to="1.2 1.2 1.2" dur="800" dir="alternate" repeat="indefinite"></a-animation>
+        </a-sphere>
+        <a-cone radius-bottom="0.01" radius-top="0.06" height="0.15" color="#ff0055" position="0 0.075 0"></a-cone>
+        <a-text value="Samsung" align="center" position="0 0.3 0" scale="0.5 0.5 0.5" color="white" look-at="[camera]"></a-text>
       </a-entity>
 
-      <a-entity position="0.3 0.2 0" class="clickable pin" data-id="nvidia">
-        <a-box visible="false" width="0.2" height="0.5" depth="0.2"></a-box>
-        <a-sphere radius="0.08" color="#00ff00" position="0 0.1 0"></a-sphere>
-        <a-cone radius-bottom="0.01" radius-top="0.08" height="0.2" color="#00ff00" position="0 0 0"></a-cone>
-      </a-entity>
-
-      <a-entity position="0.1 0.2 0.6" class="clickable pin" data-id="intel">
-        <a-box visible="false" width="0.2" height="0.5" depth="0.2"></a-box>
-        <a-sphere radius="0.08" color="#00aaff" position="0 0.1 0"></a-sphere>
-        <a-cone radius-bottom="0.01" radius-top="0.08" height="0.2" color="#00aaff" position="0 0 0"></a-cone>
+      <a-entity position="0.3 0.1 -0.7" class="clickable pin" data-id="apple">
+        
+        <a-box visible="false" width="0.3" height="0.5" depth="0.3" position="0 0.1 0"></a-box>
+        
+        <a-sphere radius="0.06" color="#ffffff" position="0 0.15 0"></a-sphere>
+        <a-cone radius-bottom="0.01" radius-top="0.06" height="0.15" color="#ffffff" position="0 0.075 0"></a-cone>
+        <a-text value="Apple" align="center" position="0 0.3 0" scale="0.5 0.5 0.5" color="white" look-at="[camera]"></a-text>
       </a-entity>
 
     </a-entity>
 
-    <a-entity camera look-controls="enabled: false" 
-              orbit-controls="target: 0 0.8 0; minDistance: 0.1; maxDistance: 10; initialPosition: 0 2 3; zoomSpeed: 1.5; enablePan: true; screenSpacePanning: true;">
+    <a-entity 
+      camera 
+      look-controls="enabled: false"
+      orbit-controls="
+          target: 0 0.8 0; 
+          minDistance: 0.1; 
+          maxDistance: 10; 
+          initialPosition: 0 2 3.5; 
+          rotateSpeed: 0.5; 
+          zoomSpeed: 2.0; 
+          enableZoom: true; 
+          enablePan: true; 
+          screenSpacePanning: true;">
     </a-entity>
 
   </a-scene>
 
   <script>
-    // 繪製地板紋理
-    const ctx = document.getElementById('floor-tex').getContext('2d');
-    ctx.fillStyle = '#555'; ctx.fillRect(0,0,512,512);
-    ctx.strokeStyle = '#444'; ctx.lineWidth = 2;
-    for(let i=0; i<512; i+=50){ ctx.beginPath(); ctx.moveTo(0,i); ctx.lineTo(512,i); ctx.stroke(); ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i,512); ctx.stroke(); }
+    // 1. 生成木紋 (避免黑屏)
+    const ctx = document.getElementById('wood-tex').getContext('2d');
+    ctx.fillStyle = '#3e2723'; ctx.fillRect(0,0,512,512);
+    ctx.strokeStyle = '#2e1c18'; ctx.lineWidth = 4;
+    for(let i=0;i<40;i++){ctx.beginPath();ctx.moveTo(0,Math.random()*512);ctx.bezierCurveTo(150,Math.random()*512,350,Math.random()*512,512,Math.random()*512);ctx.stroke();}
 
-    // 互動邏輯
+    // 2. 互動邏輯
     const flat = document.getElementById('step1-flat');
     const ar = document.getElementById('step2-ar');
     const panel = document.getElementById('info-panel');
@@ -156,31 +182,60 @@
     const pContent = document.getElementById('p-content');
 
     // 啟動 3D
-    window.startAR = function() {
+    window.activateAR = function() {
       flat.setAttribute('visible', 'false');
       ar.setAttribute('visible', 'true');
       ar.setAttribute('animation', 'property: scale; to: 1 1 1; dur: 1000; easing: easeOutElastic');
     };
 
-    // 資料庫
-    const db = {
-      samsung: { title: "NORTH: SAMSUNG", body: "地點：北寧 (Bac Ninh)<br>投資：$192 億美元<br>重點：手機組裝、研發中心<br>優勢：鄰近中國供應鏈，具備快速反應能力。" },
-      nvidia: { title: "CENTRAL: NVIDIA", body: "地點：峴港 (Da Nang)<br>合作：FPT<br>重點：AI 晶片設計<br>優勢：利用中部大學人才庫，發展軟體與 IC 設計。" },
-      intel: { title: "SOUTH: INTEL", body: "地點：胡志明市 (SHTP)<br>設施：ATM 封測廠<br>重點：封裝測試<br>優勢：基礎設施最完善，出口物流便捷。" }
+    // 關閉面板
+    window.closePanel = function() {
+      panel.classList.remove('active');
     };
 
-    // 綁定點擊
+    // 3. 資料庫 (聚焦北越)
+    const db = {
+      samsung: { 
+        title: "SAMSUNG ELECTRONICS", 
+        body: "<span class='tag'>LOCATION: BAC NINH</span><br><br><b>投資規模:</b> $19.2 Billion<br><b>關鍵地位:</b> 全球 50% 的 Galaxy 手機在此生產。<br><b>地理優勢:</b> 距離內排機場 (Noi Bai) 僅 40 分鐘，方便空運出口。" 
+      },
+      apple: { 
+        title: "APPLE / FOXCONN", 
+        body: "<span class='tag'>LOCATION: BAC GIANG</span><br><br><b>主要產品:</b> iPad, Apple Watch<br><b>戰略意義:</b> Apple 供應鏈去風險化 (De-risking) 的核心。正逐步將 MacBook 產線移入此區。" 
+      }
+    };
+
+    // 4. 點擊事件綁定 (加入 console.log 方便除錯)
     document.querySelectorAll('.pin').forEach(pin => {
+      
+      // 點擊
       pin.addEventListener('click', function(e) {
-        e.stopPropagation(); // 防止點穿
+        e.stopPropagation(); // 防止點到背景
+        console.log("Pin Clicked:", this.getAttribute('data-id')); // 除錯訊息
+
         const data = db[this.getAttribute('data-id')];
         pTitle.innerHTML = data.title;
         pContent.innerHTML = data.body;
         panel.classList.add('active');
       });
-      // 滑鼠懸停變大
-      pin.addEventListener('mouseenter', function() { this.setAttribute('scale', '1.3 1.3 1.3'); });
-      pin.addEventListener('mouseleave', function() { this.setAttribute('scale', '1 1 1'); });
+
+      // 滑鼠懸停 (變大)
+      pin.addEventListener('mouseenter', function() { 
+        this.object3D.scale.set(1.3, 1.3, 1.3); 
+        document.body.style.cursor = 'pointer';
+      });
+      
+      // 滑鼠移開 (恢復)
+      pin.addEventListener('mouseleave', function() { 
+        this.object3D.scale.set(1, 1, 1); 
+        document.body.style.cursor = 'default';
+      });
+    });
+
+    // 簡易 Look-at (讓文字面向鏡頭)
+    AFRAME.registerComponent('look-at', {
+      schema: { type: 'selector' },
+      tick: function () { this.el.object3D.lookAt(this.el.sceneEl.camera.el.object3D.position); }
     });
 
   </script>
