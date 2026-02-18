@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>VILL: V31 Elevated Spatial UI</title>
+  <title>VILL: V32 Refined Spatial UI</title>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://unpkg.com/aframe-orbit-controls@1.3.0/dist/aframe-orbit-controls.min.js"></script>
   
@@ -18,7 +18,7 @@
   </style>
 
   <script>
-    // Billboard 功能：讓物件永遠正視鏡頭
+    // Billboard 功能：強制正視鏡頭
     AFRAME.registerComponent('smart-label', {
       tick: function () {
         var cameraEl = this.el.sceneEl.camera.el;
@@ -99,14 +99,16 @@
            <a-text value="SAMSUNG" align="center" color="#fff" width="4" position="0 0 0" scale="0.5 0.5 0.5"></a-text>
         </a-entity>
 
-        <a-entity id="card-samsung" position="2.5 1.4 0" visible="false" scale="0 0 0" smart-label>
-          <a-plane width="3.5" height="0.4" material="src: #ui-header-tex; transparent: true" color="#007bff" position="0 1.6 0.02"></a-plane>
-          <a-plane width="3.5" height="3.8" material="src: #ui-bg-tex; transparent: true; opacity: 0.98" position="0 0 0"></a-plane>
-          <a-text value="SAMSUNG (Bac Ninh Cluster)" color="#fff" align="center" position="0 1.6 0.04" width="4.2"></a-text>
-          <a-text value="(A) Supply Chain Proximity:\nClose to China border. Components delivered in 12hrs.\n\n(B) Risk Diversification:\nReduce reliance on single production base (China).\n\n(C) Labor & Cost Advantage:\nAccess to large-scale, cost-competitive workforce.\n\n(D) Gov Incentives:\nSpecific tax breaks and land support in Bac Ninh.\n\n(E) Cluster Effect:\nAttracted logistics and sub-suppliers to cluster here." 
-                  color="#e0f7fa" align="left" anchor="center" baseline="top" position="0 1.3 0.04" width="3.2" wrapCount="55" lineHeight="50"></a-text>
-          <a-text value="[ CLICK TO CLOSE ]" color="#4dd0e1" align="center" position="0 -1.6 0.04" width="2.5"></a-text>
-          <a-plane class="clickable" width="3.5" height="3.8" position="0 0 0.05" visible="false" onclick="toggleCard('card-samsung')"></a-plane>
+        <a-entity id="card-samsung" position="2.2 1.8 0" visible="false" scale="0 0 0" smart-label>
+          <a-plane width="2.8" height="0.35" material="src: #ui-header-tex; transparent: true" color="#007bff" position="0 1.45 0.02"></a-plane>
+          <a-plane width="2.8" height="3.2" material="src: #ui-bg-tex; transparent: true; opacity: 0.98" position="0 0 0"></a-plane>
+          <a-text value="SAMSUNG (Bac Ninh Cluster)" color="#fff" align="center" position="0 1.45 0.04" width="3.5"></a-text>
+          
+          <a-text value="(A) Supply Chain Proximity:\nClose to China border. Parts delivered in 12hrs.\n\n(B) Risk Diversification:\nReduce reliance on single production base (China).\n\n(C) Labor & Cost Advantage:\nAccess to large-scale manufacturing workforce.\n\n(D) Gov Incentives:\nSpecific tax breaks and land support in Bac Ninh.\n\n(E) Cluster Effect:\nAttracted logistics and vendors to cluster here." 
+                  color="#e0f7fa" align="left" anchor="center" baseline="top" position="0 1.2 0.04" width="2.5" wrapCount="62" lineHeight="50"></a-text>
+          
+          <a-text value="[ CLICK TO CLOSE ]" color="#4dd0e1" align="center" position="0 -1.4 0.04" width="2.2"></a-text>
+          <a-plane class="clickable" width="2.8" height="3.2" position="0 0 0.05" visible="false" onclick="toggleCard('card-samsung')"></a-plane>
         </a-entity>
       </a-entity>
 
@@ -121,14 +123,16 @@
            <a-text value="APPLE" align="center" color="#fff" width="4" position="0 0 0" scale="0.5 0.5 0.5"></a-text>
         </a-entity>
 
-        <a-entity id="card-apple" position="2.5 1.4 0" visible="false" scale="0 0 0" smart-label>
-          <a-plane width="3.5" height="0.4" material="src: #ui-header-tex; transparent: true" color="#95a5a6" position="0 1.6 0.02"></a-plane>
-          <a-plane width="3.5" height="3.8" material="src: #ui-bg-tex; transparent: true; opacity: 0.98" position="0 0 0"></a-plane>
-          <a-text value="APPLE Suppliers (Bac Ninh)" color="#000" align="center" position="0 1.6 0.04" width="4.2"></a-text>
-          <a-text value="(A) The Electronics Core:\nNear Hanoi, Airport & Port. Critical for high-freq export.\n\n(B) Mature Infrastructure:\nReady-made industrial parks (VSIP) allow fast ramp-up.\n\n(C) Supply Chain Proximity:\nSharing the ecosystem built by Samsung investments.\n\n(D) Aggregation Phenomenon:\nHighest concentration of Apple suppliers in one cluster.\n\n(E) China+1 Strategy:\nFoxconn expanding here for resilience and de-risking." 
-                  color="#e0f7fa" align="left" anchor="center" baseline="top" position="0 1.3 0.04" width="3.2" wrapCount="55" lineHeight="50"></a-text>
-          <a-text value="[ CLICK TO CLOSE ]" color="#4dd0e1" align="center" position="0 -1.6 0.04" width="2.5"></a-text>
-          <a-plane class="clickable" width="3.5" height="3.8" position="0 0 0.05" visible="false" onclick="toggleCard('card-apple')"></a-plane>
+        <a-entity id="card-apple" position="2.2 1.8 0" visible="false" scale="0 0 0" smart-label>
+          <a-plane width="2.8" height="0.35" material="src: #ui-header-tex; transparent: true" color="#95a5a6" position="0 1.45 0.02"></a-plane>
+          <a-plane width="2.8" height="3.2" material="src: #ui-bg-tex; transparent: true; opacity: 0.98" position="0 0 0"></a-plane>
+          <a-text value="APPLE Suppliers (Bac Ninh)" color="#000" align="center" position="0 1.45 0.04" width="3.5"></a-text>
+          
+          <a-text value="(A) The Electronics Core:\nNear Hanoi, Airport & Port. Critical for export.\n\n(B) Mature Infrastructure:\nReady-made VSIP parks allow fast ramp-up.\n\n(C) Supply Chain Proximity:\nSharing the ecosystem built by Samsung.\n\n(D) Aggregation Phenomenon:\nHighest concentration of Apple suppliers in cluster.\n\n(E) China+1 Strategy:\nFoxconn expanding here for resilience." 
+                  color="#e0f7fa" align="left" anchor="center" baseline="top" position="0 1.2 0.04" width="2.5" wrapCount="62" lineHeight="50"></a-text>
+          
+          <a-text value="[ CLICK TO CLOSE ]" color="#4dd0e1" align="center" position="0 -1.4 0.04" width="2.2"></a-text>
+          <a-plane class="clickable" width="2.8" height="3.2" position="0 0 0.05" visible="false" onclick="toggleCard('card-apple')"></a-plane>
         </a-entity>
       </a-entity>
 
@@ -138,7 +142,7 @@
   </a-scene>
 
   <script>
-    // 材質生成
+    // 材質生成 (保持不變)
     const c1 = document.getElementById('wood-tex').getContext('2d');
     c1.fillStyle = '#6d4c41'; c1.fillRect(0,0,512,512); c1.strokeStyle = '#4e342e'; c1.lineWidth = 3;
     for(let i=0;i<60;i++){c1.beginPath();c1.moveTo(0,Math.random()*512);c1.bezierCurveTo(150,Math.random()*512,350,Math.random()*512,512,Math.random()*512);c1.stroke();}
@@ -148,7 +152,6 @@
     const c3 = document.getElementById('wall-tex').getContext('2d');
     c3.fillStyle = '#fdf5e6'; c3.fillRect(0,0,512,512); for(let i=0;i<5000;i++){ c3.fillStyle = Math.random()>0.5 ? '#fff8e1' : '#fff'; c3.fillRect(Math.random()*512, Math.random()*512, 2, 2); }
 
-    // UI 材質
     function roundRect(ctx, x, y, width, height, radius, fill, stroke, strokeWidth) {
       ctx.beginPath();
       ctx.moveTo(x + radius, y);
