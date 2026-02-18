@@ -2,51 +2,48 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>VILL: North Vietnam Strategy (V19 Final)</title>
+  <title>VILL: Realistic Classroom (V20)</title>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://unpkg.com/aframe-orbit-controls@1.3.0/dist/aframe-orbit-controls.min.js"></script>
   
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&family=Noto+Sans+TC:wght@400;700&display=swap');
-    body { margin: 0; overflow: hidden; font-family: 'Noto Sans TC', sans-serif; background-color: #1a1a1a; }
+    body { margin: 0; overflow: hidden; font-family: 'Noto Sans TC', sans-serif; background-color: #000; }
 
     /* UI 層 */
     #ui-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; display: flex; flex-direction: column; justify-content: space-between; }
-    .header { background: rgba(10, 20, 30, 0.95); border-bottom: 3px solid #00d2ff; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; pointer-events: auto; }
+    .header { background: rgba(20, 30, 40, 0.95); border-bottom: 3px solid #00d2ff; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; pointer-events: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
     .title { color: #00d2ff; font-family: 'Rajdhani', sans-serif; font-size: 28px; font-weight: bold; letter-spacing: 2px; }
     .subtitle { color: #fff; font-size: 14px; margin-left: 15px; opacity: 0.8; }
     
-    /* 資料面板：針對內容優化 */
+    /* 精緻化的資料面板 */
     #info-panel { 
-      position: absolute; top: 120px; right: 30px; width: 360px; 
-      background: rgba(10, 15, 20, 0.95); /* 深色半透明背景 */
-      backdrop-filter: blur(10px);        /* 毛玻璃效果 */
-      border: 1px solid #333; 
+      position: absolute; top: 120px; right: 30px; width: 380px; 
+      background: rgba(255, 255, 255, 0.95); /* 改用亮色背景，像紙張 */
       border-left: 6px solid #00d2ff; 
       border-radius: 4px; padding: 30px; 
-      color: white; 
+      color: #333; /* 深色文字 */
       transform: translateX(130%); transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); 
       pointer-events: auto; 
-      box-shadow: -20px 20px 60px rgba(0,0,0,0.8); 
+      box-shadow: -10px 10px 50px rgba(0,0,0,0.3); 
     }
     #info-panel.active { transform: translateX(0); }
     
-    .panel-h { color: #00d2ff; font-size: 24px; font-weight: bold; margin-bottom: 15px; border-bottom: 1px solid #444; padding-bottom: 10px; font-family: 'Rajdhani'; letter-spacing: 1px; }
-    .panel-b { font-size: 15px; line-height: 1.8; color: #e0e0e0; }
+    .panel-h { color: #0056b3; font-size: 24px; font-weight: bold; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px; font-family: 'Rajdhani'; }
+    .panel-b { font-size: 15px; line-height: 1.8; color: #444; }
     
-    /* 列表樣式 */
     ul { padding-left: 20px; margin: 0; }
-    li { margin-bottom: 8px; color: #ccc; }
-    strong { color: #fff; }
+    li { margin-bottom: 8px; }
+    strong { color: #000; font-weight: 700; }
 
-    .tag { display: inline-block; background: rgba(0, 210, 255, 0.15); color: #00d2ff; padding: 4px 10px; border-radius: 4px; font-size: 12px; margin-bottom: 15px; font-weight: bold; border: 1px solid rgba(0, 210, 255, 0.3); }
-    .close-btn { position: absolute; top: 15px; right: 15px; color: #666; cursor: pointer; font-size: 20px; transition: 0.2s; } 
-    .close-btn:hover { color: white; transform: rotate(90deg); }
-    .controls-hint { text-align: center; padding: 15px; background: linear-gradient(0deg, rgba(0,0,0,0.9), transparent); color: #aaa; font-size: 13px; }
+    .tag { display: inline-block; background: #e3f2fd; color: #0277bd; padding: 4px 10px; border-radius: 4px; font-size: 12px; margin-bottom: 15px; font-weight: bold; border: 1px solid #bbdefb; }
+    .close-btn { position: absolute; top: 15px; right: 15px; color: #999; cursor: pointer; font-size: 20px; transition: 0.2s; } 
+    .close-btn:hover { color: #333; transform: rotate(90deg); }
+    .controls-hint { text-align: center; padding: 15px; background: linear-gradient(0deg, rgba(0,0,0,0.8), transparent); color: #ccc; font-size: 13px; text-shadow: 1px 1px 2px black; }
   </style>
 
   <script>
-    // === Smart Label: 保持文字面向螢幕 ===
+    // === Smart Label (保持文字面向螢幕) ===
     AFRAME.registerComponent('smart-label', {
       tick: function () {
         var cameraEl = this.el.sceneEl.camera.el;
@@ -55,7 +52,6 @@
       }
     });
   </script>
-
 </head>
 
 <body>
@@ -63,7 +59,7 @@
   <div id="ui-layer">
     <div class="header">
       <div><span class="title">VILL SYSTEM</span><span class="subtitle">Module: North Vietnam Supply Chain</span></div>
-      <div style="background:#00d2ff; color:black; font-size:12px; padding:4px 10px; border-radius:4px; font-weight:bold;">LIVE</div>
+      <div style="background:#00d2ff; color:black; font-size:12px; padding:4px 10px; border-radius:4px; font-weight:bold;">LIVE CLASSROOM</div>
     </div>
     
     <div id="info-panel">
@@ -75,48 +71,53 @@
     <div class="controls-hint">🖱️ 左鍵拖曳: 旋轉 | 🖱️ 滾輪: 縮放 | 🖱️ 右鍵拖曳: 平移 | 👆 請點擊地圖上的標記</div>
   </div>
 
-  <a-scene renderer="antialias: true; colorManagement: true;" cursor="rayOrigin: mouse" raycaster="objects: .clickable">
+  <a-scene renderer="antialias: true; colorManagement: true; physicallyCorrectLights: true;" cursor="rayOrigin: mouse" raycaster="objects: .clickable">
     
     <a-assets>
       <img id="map-tex" src="./map.jpg" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Vietnam_location_map_topographic.png/640px-Vietnam_location_map_topographic.png'">
+      <canvas id="floor-tex" width="512" height="512"></canvas>
       <canvas id="wood-tex" width="512" height="512"></canvas>
+      <canvas id="wall-tex" width="512" height="512"></canvas>
     </a-assets>
 
-    <a-sky color="#0f172a"></a-sky>
-    <a-entity id="room">
-      <a-plane position="0 0 0" rotation="-90 0 0" width="30" height="30" color="#334155"></a-plane>
-      <a-plane position="0 6 0" rotation="90 0 0" width="30" height="30" color="#1e293b"></a-plane>
-      <a-plane position="0 3 -8" width="30" height="6" color="#cbd5e1"></a-plane>
-      <a-plane position="-8 3 0" rotation="0 90 0" width="30" height="6" color="#94a3b8"></a-plane>
-      <a-plane position="8 3 0" rotation="0 -90 0" width="30" height="6" color="#94a3b8"></a-plane>
-      <a-plane position="-7.9 3 0" rotation="0 90 0" width="6" height="3" color="#fff" material="emissive:#fff; emissiveIntensity:0.6"></a-plane>
-    </a-entity>
-    <a-light type="ambient" intensity="0.5"></a-light>
-    <a-light type="directional" position="-5 5 2" intensity="0.6" castShadow="true"></a-light>
-    <a-light type="spot" position="0 7 0" target="#table" intensity="1.2" penumbra="0.4"></a-light>
+    <a-sky color="#87CEEB"></a-sky> <a-plane position="0 0 0" rotation="-90 0 0" width="20" height="20" material="src: #floor-tex; roughness: 0.8; repeat: 4 4"></a-plane>
+    <a-plane position="0 5 0" rotation="90 0 0" width="20" height="20" color="#eee"></a-plane>
 
-    <a-entity id="table" position="0 0 0">
-      <a-cylinder position="0 0.8 0" radius="2" height="0.1" material="src: #wood-tex; color: #3e2723; roughness: 0.5"></a-cylinder>
-      <a-cylinder position="0 0.4 0" radius="0.3" height="0.8" color="#222"></a-cylinder>
-      <a-cylinder position="0 0.02 0" radius="1.0" height="0.05" color="#111"></a-cylinder>
-      <a-torus position="0 0.8 0" rotation="90 0 0" radius="2" radius-tubular="0.015" color="#00d2ff" material="emissive:#00d2ff; emissiveIntensity:0.8"></a-torus>
-    </a-entity>
+    <a-box position="0 2.5 -6" width="20" height="5" depth="0.2" material="src: #wall-tex; color: #f0f0f0"></a-box>
+    <a-plane position="0 2.5 -5.8" width="6" height="2" color="white" material="roughness: 0.2"></a-plane>
+    <a-box position="0 1.4 -5.75" width="4" height="0.05" depth="0.1" color="#888"></a-box> <a-box position="6 2.5 0" width="0.2" height="5" depth="20" material="src: #wall-tex; color: #f0f0f0"></a-box>
 
-    <a-entity id="step1-flat" position="0 0.86 0" rotation="-90 0 0">
-      <a-plane width="1.4" height="2" color="#fff" class="clickable" onclick="activateAR()">
-        <a-image src="#map-tex" width="1.3" height="1.9" position="0 0 0.01"></a-image>
-        <a-plane width="1.4" height="2" position="0 0 0.02" color="#00d2ff" opacity="0" animation__hover="property: opacity; from: 0; to: 0.2; dur: 200; startEvents: mouseenter; pauseEvents: mouseleave"></a-plane>
-        <a-text value="CLICK TO ACTIVATE" align="center" position="0 0 0.05" color="red" scale="1 1 1"></a-text>
+    <a-box position="-6 4 0" width="0.2" height="2" depth="20" material="src: #wall-tex; color: #f0f0f0"></a-box>
+    <a-box position="-6 1 0" width="0.2" height="2" depth="20" material="src: #wall-tex; color: #f0f0f0"></a-box>
+    <a-box position="-6 2.5 5" width="0.2" height="1" depth="10" material="src: #wall-tex; color: #f0f0f0"></a-box>
+    <a-box position="-6 2.5 -5" width="0.2" height="1" depth="10" material="src: #wall-tex; color: #f0f0f0"></a-box>
+    
+    <a-box position="-6 2.5 0" width="0.1" height="0.1" depth="4" color="#ddd"></a-box>
+    <a-box position="-6 2.5 0" width="0.1" height="1.5" depth="0.1" color="#ddd"></a-box>
+
+
+    <a-light type="ambient" intensity="0.6" color="#fff"></a-light>
+    <a-light type="directional" position="-10 5 2" intensity="1.5" castShadow="true" color="#ffd"></a-light>
+    <a-light type="point" position="0 4 0" intensity="0.5" distance="10" decay="2"></a-light>
+    <a-box position="0 4.9 0" width="0.2" height="0.1" depth="1.2" color="#fff" material="emissive: #fff; emissiveIntensity: 1"></a-box>
+
+
+    <a-entity id="table-group" position="0 0 0">
+      <a-box position="0 0.8 0" width="2.2" height="0.1" depth="3.2" material="src: #wood-tex; roughness: 0.3; metalness: 0.1"></a-box>
+      
+      <a-cylinder position="-0.8 0.4 -1.2" radius="0.05" height="0.8" color="#222"></a-cylinder>
+      <a-cylinder position="0.8 0.4 -1.2" radius="0.05" height="0.8" color="#222"></a-cylinder>
+      <a-cylinder position="-0.8 0.4 1.2" radius="0.05" height="0.8" color="#222"></a-cylinder>
+      <a-cylinder position="0.8 0.4 1.2" radius="0.05" height="0.8" color="#222"></a-cylinder>
+      
+      <a-image src="#map-tex" width="1.8" height="2.6" position="0 0.86 0" rotation="-90 0 0" material="shader: standard; roughness: 0.8"></a-image>
+      
+      <a-plane width="1.8" height="0.05" rotation="-90 0 0" color="#00d2ff" opacity="0.2" position="0 0.87 0">
+         <a-animation attribute="position" from="0 0.87 -1" to="0 0.87 1" dur="4000" dir="alternate" repeat="indefinite"></a-animation>
       </a-plane>
-    </a-entity>
 
-    <a-entity id="step2-ar" position="0 1.2 0" visible="false" scale="0.1 0.1 0.1">
-      <a-image src="#map-tex" width="1.8" height="2.6" rotation="-90 0 0" opacity="0.95"></a-image>
-      <a-plane width="1.8" height="0.05" rotation="-90 0 0" color="#00d2ff" opacity="0.3" position="0 0.05 0">
-         <a-animation attribute="position" from="0 0.05 -1" to="0 0.05 1" dur="2500" dir="alternate" repeat="indefinite"></a-animation>
-      </a-plane>
 
-      <a-entity position="0.05 0.1 -0.65" class="pin" data-id="samsung">
+      <a-entity position="0.05 0.86 -0.65" class="pin" data-id="samsung">
         <a-box class="clickable" visible="false" width="0.4" height="0.8" depth="0.4" position="0 0.2 0"></a-box>
         
         <a-sphere radius="0.06" color="#ff0055" position="0 0.15 0">
@@ -125,56 +126,69 @@
         <a-cone radius-bottom="0.01" radius-top="0.06" height="0.15" color="#ff0055" position="0 0.075 0"></a-cone>
         
         <a-entity position="0 0.45 0" smart-label>
-           <a-text value="SAMSUNG" align="center" color="black" width="4" position="0.02 -0.02 -0.01" scale="0.5 0.5 0.5"></a-text>
+           <a-text value="SAMSUNG" align="center" color="black" width="4" position="0.005 -0.005 -0.01" scale="0.5 0.5 0.5"></a-text>
            <a-text value="SAMSUNG" align="center" color="#fff" width="4" position="0 0 0" scale="0.5 0.5 0.5"></a-text>
         </a-entity>
       </a-entity>
 
 
-      <a-entity position="-0.05 0.1 -0.48" class="pin" data-id="apple">
+      <a-entity position="-0.05 0.86 -0.48" class="pin" data-id="apple">
         <a-box class="clickable" visible="false" width="0.4" height="0.8" depth="0.4" position="0 0.2 0"></a-box>
         
         <a-sphere radius="0.06" color="#ffffff" position="0 0.15 0"></a-sphere>
         <a-cone radius-bottom="0.01" radius-top="0.06" height="0.15" color="#ffffff" position="0 0.075 0"></a-cone>
         
         <a-entity position="0 0.45 0" smart-label>
-           <a-text value="APPLE" align="center" color="black" width="4" position="0.02 -0.02 -0.01" scale="0.5 0.5 0.5"></a-text>
+           <a-text value="APPLE" align="center" color="black" width="4" position="0.005 -0.005 -0.01" scale="0.5 0.5 0.5"></a-text>
            <a-text value="APPLE" align="center" color="#fff" width="4" position="0 0 0" scale="0.5 0.5 0.5"></a-text>
         </a-entity>
       </a-entity>
 
-    </a-entity>
-
-    <a-entity camera look-controls="enabled: false" orbit-controls="target: 0 0.8 0; minDistance: 0.1; maxDistance: 10; initialPosition: 0 2 3.5; rotateSpeed: 0.5; zoomSpeed: 2.0; enableZoom: true; enablePan: true; screenSpacePanning: true;"></a-entity>
+    </a-entity> <a-entity camera look-controls="enabled: false" orbit-controls="target: 0 0.8 0; minDistance: 0.1; maxDistance: 10; initialPosition: 0 2 3.5; rotateSpeed: 0.5; zoomSpeed: 2.0; enableZoom: true; enablePan: true; screenSpacePanning: true;"></a-entity>
   </a-scene>
 
   <script>
-    const ctx = document.getElementById('wood-tex').getContext('2d');
-    ctx.fillStyle = '#3e2723'; ctx.fillRect(0,0,512,512); ctx.strokeStyle = '#2e1c18'; ctx.lineWidth = 4; for(let i=0;i<40;i++){ctx.beginPath();ctx.moveTo(0,Math.random()*512);ctx.bezierCurveTo(150,Math.random()*512,350,Math.random()*512,512,Math.random()*512);ctx.stroke();}
+    // === 材質生成器 (Procedural Textures) ===
+    
+    // 1. 木紋 (桌子)
+    const c1 = document.getElementById('wood-tex').getContext('2d');
+    c1.fillStyle = '#5d4037'; c1.fillRect(0,0,512,512);
+    c1.strokeStyle = '#3e2723'; c1.lineWidth = 3;
+    for(let i=0;i<60;i++){c1.beginPath();c1.moveTo(0,Math.random()*512);c1.bezierCurveTo(150,Math.random()*512,350,Math.random()*512,512,Math.random()*512);c1.stroke();}
+    
+    // 2. 磁磚 (地板)
+    const c2 = document.getElementById('floor-tex').getContext('2d');
+    c2.fillStyle = '#e0e0e0'; c2.fillRect(0,0,512,512);
+    c2.strokeStyle = '#bdbdbd'; c2.lineWidth = 4;
+    c2.strokeRect(0,0,512,512); // 邊框
+    c2.fillStyle = '#f5f5f5'; c2.fillRect(10,10,230,230); c2.fillRect(260,10,230,230); // 格子
+    c2.fillRect(10,260,230,230); c2.fillRect(260,260,230,230);
 
-    const flat = document.getElementById('step1-flat');
-    const ar = document.getElementById('step2-ar');
+    // 3. 牆壁 (水泥質感)
+    const c3 = document.getElementById('wall-tex').getContext('2d');
+    c3.fillStyle = '#fcfcfc'; c3.fillRect(0,0,512,512);
+    for(let i=0;i<5000;i++){
+        c3.fillStyle = Math.random()>0.5 ? '#eee' : '#fff';
+        c3.fillRect(Math.random()*512, Math.random()*512, 2, 2);
+    }
+
+    // === 互動邏輯 ===
     const panel = document.getElementById('info-panel');
     const pTitle = document.getElementById('p-title');
     const pContent = document.getElementById('p-content');
 
-    window.activateAR = function() {
-      flat.setAttribute('visible', 'false'); ar.setAttribute('visible', 'true');
-      ar.setAttribute('animation', 'property: scale; to: 1 1 1; dur: 1000; easing: easeOutElastic');
-    };
     window.closePanel = function() { panel.classList.remove('active'); };
 
-    // === 資料庫更新：解釋「為什麼選這裡」 (Strategic Why) ===
     const db = {
       samsung: { 
         title: "SAMSUNG ELECTRONICS", 
         body: `
           <span class='tag'>LOCATION: BAC NINH (北寧省)</span>
-          <p>為什麼選擇這裡？ (Why Here?)</p>
+          <p><strong>為什麼選擇這裡？ (Why Here?)</strong></p>
           <ul>
-            <li><strong>1. 供應鏈近鄰效應：</strong><br>緊鄰中國廣西邊境，零組件陸運僅需 12 小時，大幅降低庫存成本。</li>
-            <li><strong>2. 全球物流樞紐：</strong><br>距離內排國際機場 (Noi Bai) 僅 40 分鐘車程，確保高階手機可 24 小時內空運至全球。</li>
-            <li><strong>3. 政策支持：</strong><br>越南政府提供「四免九減半」稅務優惠，使其成為全球成本最低的生產基地。</li>
+            <li><strong>1. 供應鏈近鄰效應：</strong><br>緊鄰中國廣西邊境，零組件陸運僅需 12 小時。</li>
+            <li><strong>2. 全球物流樞紐：</strong><br>距離內排國際機場 (Noi Bai) 僅 40 分鐘車程。</li>
+            <li><strong>3. 政策支持：</strong><br>享有「四免九減半」稅務優惠。</li>
           </ul>
         ` 
       },
@@ -182,28 +196,23 @@
         title: "APPLE / FOXCONN", 
         body: `
           <span class='tag'>LOCATION: BAC GIANG (北江省)</span>
-          <p>為什麼選擇這裡？ (Why Here?)</p>
+          <p><strong>為什麼選擇這裡？ (Why Here?)</strong></p>
           <ul>
-            <li><strong>1. 中國加一策略 (China Plus One)：</strong><br>為分散地緣政治風險，Apple 要求供應鏈必須在中國以外建立備援產線。</li>
-            <li><strong>2. 產業聚落效應：</strong><br>利用鄰近三星建立起的電子零組件生態系，快速複製組裝量能 (MacBook/iPad)。</li>
-            <li><strong>3. 充足的勞動力：</strong><br>北江省擁有大量年輕且訓練有素的技術工人群體。</li>
+            <li><strong>1. 中國加一策略 (China Plus One)：</strong><br>分散地緣政治風險，建立備援產線。</li>
+            <li><strong>2. 產業聚落效應：</strong><br>利用鄰近三星生態系，快速複製組裝量能。</li>
+            <li><strong>3. 充足勞動力：</strong><br>擁有大量年輕且訓練有素的技術工人群體。</li>
           </ul>
         ` 
       }
     };
 
-    // 互動事件綁定
-    // 監聽所有 class="clickable" 的物件 (包含我們加的隱形盒子)
     document.querySelectorAll('.clickable').forEach(el => {
       el.addEventListener('click', function(e) {
         e.stopPropagation(); 
-        
-        // 因為點擊的是盒子，我們要往上找它的父層 (pin) 來拿 ID
         const parentPin = this.closest('.pin');
         if (parentPin) {
           const id = parentPin.getAttribute('data-id');
           const data = db[id];
-          
           if (data) {
             pTitle.innerHTML = data.title; 
             pContent.innerHTML = data.body; 
@@ -211,8 +220,6 @@
           }
         }
       });
-      
-      // 滑鼠懸停效果 (針對盒子做反應，但縮放父層)
       el.addEventListener('mouseenter', function() { 
         const parent = this.closest('.pin');
         if(parent) parent.object3D.scale.set(1.3, 1.3, 1.3); 
