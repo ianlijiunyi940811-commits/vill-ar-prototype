@@ -2,18 +2,16 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>VILL: 2026 Strategy Room</title>
+  <title>VILL: War Room V11 (Fixed Zoom)</title>
   <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
   <script src="https://unpkg.com/aframe-orbit-controls@1.3.0/dist/aframe-orbit-controls.min.js"></script>
   
   <style>
-    /* 專業教育風格字體 */
-    @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Noto+Sans+TC:wght@400;700&display=swap');
-    
-    body { margin: 0; overflow: hidden; background-color: #0b1015; font-family: 'Noto Sans TC', sans-serif; }
+    @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&family=Noto+Sans+TC:wght@400;700&display=swap');
+    body { margin: 0; overflow: hidden; font-family: 'Noto Sans TC', sans-serif; background: #111; }
 
     /* === UI 層 === */
-    #ui-overlay {
+    #ui-layer {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       pointer-events: none; z-index: 999;
       display: flex; flex-direction: column; justify-content: space-between;
@@ -21,162 +19,178 @@
 
     /* 頂部標題 */
     .header {
-      background: rgba(10, 25, 40, 0.95);
-      border-bottom: 2px solid #00d2ff;
+      background: rgba(10, 20, 30, 0.9);
+      border-bottom: 2px solid #00ffcc;
       padding: 15px 30px;
       display: flex; justify-content: space-between; align-items: center;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(5px);
     }
-    .title-text { font-family: 'Rajdhani', sans-serif; font-size: 24px; color: #00d2ff; letter-spacing: 2px; font-weight: bold; }
-    .subtitle { color: #8899a6; font-size: 14px; margin-left: 10px; }
-    .badge { background: #00d2ff; color: #000; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+    .title { font-family: 'Rajdhani', sans-serif; color: #00ffcc; font-size: 26px; letter-spacing: 2px; text-shadow: 0 0 10px rgba(0,255,204,0.5); }
+    .status { color: white; border: 1px solid #555; padding: 4px 12px; border-radius: 15px; font-size: 13px; background: rgba(0,0,0,0.6); }
 
-    /* 右側資料卡 (互動跳出) */
-    #info-card {
-      position: absolute; top: 100px; right: 20px; width: 320px;
+    /* 資料面板 */
+    #info-panel {
+      position: absolute; top: 15%; right: 20px; width: 320px;
       background: rgba(15, 23, 30, 0.95);
-      border: 1px solid #334;
-      border-left: 5px solid #00d2ff;
-      border-radius: 8px;
-      padding: 20px;
+      border-left: 5px solid #00ffcc;
+      border-radius: 8px; padding: 25px;
       color: white;
-      transform: translateX(120%); /* 隱藏 */
-      transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+      transform: translateX(130%); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
       pointer-events: auto;
-      box-shadow: -10px 10px 30px rgba(0,0,0,0.5);
+      box-shadow: -10px 10px 30px rgba(0,0,0,0.6);
     }
-    #info-card.active { transform: translateX(0); }
+    #info-panel.active { transform: translateX(0); }
+    
+    .panel-h { font-family: 'Rajdhani'; font-size: 22px; color: #00ffcc; margin-bottom: 10px; border-bottom: 1px solid #444; padding-bottom: 8px; }
+    .panel-b { font-size: 14px; line-height: 1.6; color: #ccc; }
 
-    .card-head { font-family: 'Rajdhani'; font-size: 22px; color: #00d2ff; margin-bottom: 10px; border-bottom: 1px solid #334; padding-bottom: 8px; }
-    .card-body { font-size: 14px; line-height: 1.6; color: #ccc; }
-    .highlight { color: white; font-weight: bold; }
-
-    /* 底部提示 */
-    .footer { text-align: center; padding: 10px; color: #667; font-size: 12px; background: rgba(0,0,0,0.8); }
+    /* 底部操作提示 */
+    .controls-hint {
+      text-align: center; padding: 15px;
+      background: linear-gradient(0deg, rgba(0,0,0,0.9), transparent);
+      color: #aaa; font-size: 13px;
+    }
 
     /* 錯誤提示 */
-    #err-msg { position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:red; background:white; padding:20px; display:none; pointer-events:auto; text-align:center; }
+    #error-msg { position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:white; color:red; padding:20px; display:none; pointer-events:auto; text-align:center; border-radius:8px; }
   </style>
 </head>
 
 <body>
   
-  <div id="err-msg">
-    <h3>MISSING MAP.JPG</h3>
-    <p>請確認您的資料夾中有 <b>map.jpg</b> 檔案。</p>
-    <button onclick="location.reload()">重試</button>
+  <div id="error-msg">
+    <h3>⚠️ MISSING MAP.JPG</h3>
+    <p>請確認資料夾內有 <b>map.jpg</b></p>
+    <button onclick="location.reload()" style="cursor:pointer; padding:5px 10px;">重試</button>
   </div>
 
-  <div id="ui-overlay">
+  <div id="ui-layer">
     <div class="header">
-      <div>
-        <span class="title-text">VILL SYSTEM</span>
-        <span class="subtitle">Vietnam Semiconductor Strategy</span>
-      </div>
-      <span class="badge">LIVE SIMULATION</span>
+      <div class="title">VILL STRATEGY ROOM</div>
+      <div class="status">● LIVE SIMULATION</div>
+    </div>
+    
+    <div id="info-panel">
+      <div class="panel-h" id="node-title">Data Node</div>
+      <div class="panel-b" id="node-content">...</div>
     </div>
 
-    <div id="info-card">
-      <div class="card-head" id="n-title">Data Node</div>
-      <div class="card-body" id="n-content">Select a cluster...</div>
-    </div>
-
-    <div class="footer">
-      [ 滑鼠左鍵 ] 旋轉視角 &nbsp;•&nbsp; [ 滾輪 ] 縮放 &nbsp;•&nbsp; [ 點擊 ] 標記互動
+    <div class="controls-hint">
+      🖱️ 滾輪: 放大/縮小 (Zoom) &nbsp;|&nbsp; 🖱️ 左鍵拖曳: 旋轉 (Rotate) &nbsp;|&nbsp; 🖱️ 右鍵拖曳: 移動 (Pan)
     </div>
   </div>
 
   <a-scene renderer="antialias: true; colorManagement: true;" cursor="rayOrigin: mouse" raycaster="objects: .clickable">
     
     <a-assets>
-      <img id="map-tex" src="./map.jpg" onerror="document.getElementById('err-msg').style.display='block'">
+      <img id="map-tex" src="./map.jpg" onerror="document.getElementById('error-msg').style.display='block'">
       <canvas id="wood-tex" width="512" height="512"></canvas>
     </a-assets>
 
-    <a-sky color="#1b2631"></a-sky>
-    
-    <a-box position="0 3 0" width="15" height="6" depth="15" material="color: #f0f2f5; side: back;"></a-box>
-    <a-plane position="0 0.01 0" rotation="-90 0 0" width="15" height="15" color="#e1e4e8"></a-plane>
-    <a-plane position="-7.4 3 0" rotation="0 90 0" width="6" height="3" color="#fff" material="emissive: #fff; emissiveIntensity: 0.6"></a-plane>
+    <a-sky color="#1a2634"></a-sky> <a-box position="0 3 0" width="20" height="6" depth="20" material="color: #f0f2f5; side: back;"></a-box>
+    <a-plane position="0 0.01 0" rotation="-90 0 0" width="20" height="20" color="#cfd8dc"></a-plane>
+    <a-plane position="-9.9 3 0" rotation="0 90 0" width="8" height="3" color="#fff" material="emissive: #fff; emissiveIntensity: 0.8"></a-plane>
 
-    <a-light type="ambient" intensity="0.6"></a-light>
-    <a-light type="directional" position="-5 5 0" intensity="0.5" castShadow="true"></a-light>
-    <a-light type="spot" position="0 6 0" target="#table" intensity="0.8" penumbra="0.5"></a-light>
-
+    <a-light type="ambient" intensity="0.5"></a-light>
+    <a-light type="directional" position="-5 5 2" intensity="0.6" castShadow="true"></a-light>
+    <a-light type="spot" position="0 7 0" target="#table" intensity="1.2" penumbra="0.3"></a-light>
 
     <a-entity id="table" position="0 0 0">
-      <a-cylinder position="0 0.8 0" radius="1.6" height="0.05" material="src: #wood-tex; color: #3e2723; roughness: 0.6"></a-cylinder>
-      <a-cylinder position="0 0.4 0" radius="0.2" height="0.8" color="#222"></a-cylinder>
-      <a-cylinder position="0 0.02 0" radius="0.8" height="0.05" color="#111"></a-cylinder>
+      <a-cylinder position="0 0.8 0" radius="1.8" height="0.1" material="src: #wood-tex; color: #4e342e; roughness: 0.5"></a-cylinder>
+      <a-cylinder position="0 0.4 0" radius="0.3" height="0.8" color="#222"></a-cylinder>
+      <a-cylinder position="0 0.02 0" radius="1.0" height="0.05" color="#111"></a-cylinder>
     </a-entity>
 
-
-    <a-entity position="0 0.84 0" rotation="-90 0 0">
-      
-      <a-image src="#map-tex" width="2" height="2" position="0 0 0.01"></a-image>
-      
-      <a-plane width="2" height="0.02" color="#00d2ff" opacity="0.5" position="0 0 0.02">
-        <a-animation attribute="position" from="0 -1 0.02" to="0 1 0.02" dur="3000" dir="alternate" repeat="indefinite"></a-animation>
+    <a-entity id="step1-flat" position="0 0.86 0" rotation="-90 0 0">
+      <a-plane width="1.2" height="1.6" color="#fff" class="clickable" onclick="activateAR()">
+        <a-image src="#map-tex" width="1.1" height="1.5" position="0 0 0.01"></a-image>
+        <a-text value="點擊啟動全息地圖" align="center" position="0 0 0.05" color="red" scale="0.8 0.8 0.8"></a-text>
       </a-plane>
+    </a-entity>
 
+    <a-entity id="step2-ar" position="0 1.2 0" visible="false" scale="0.1 0.1 0.1">
+      
+      <a-ring radius-inner="1.8" radius-outer="1.9" rotation="-90 0 0" color="#00ffcc" position="0 -0.2 0"></a-ring>
+      <a-cylinder radius="1.8" height="0.2" color="#00ffcc" material="opacity: 0.1; transparent: true" position="0 -0.1 0"></a-cylinder>
 
-      <a-entity position="-0.2 0.5 0.1" class="clickable pin" data-id="samsung">
-         <a-ring radius-inner="0.04" radius-outer="0.05" color="#ff0055">
-           <a-animation attribute="scale" to="2 2 1" dur="1500" repeat="indefinite"></a-animation>
-           <a-animation attribute="material.opacity" from="1" to="0" dur="1500" repeat="indefinite"></a-animation>
-         </a-ring>
-         <a-cone radius-bottom="0.01" radius-top="0.05" height="0.15" color="#ff0055" rotation="90 0 0"></a-cone>
-         <a-text value="Samsung" align="center" position="0 -0.15 0.2" scale="0.5 0.5 0.5" color="white"></a-text>
+      <a-image src="#map-tex" width="2" height="2.5" rotation="-90 0 0" opacity="0.9"></a-image>
+
+      <a-entity position="-0.2 0.2 -0.6" class="clickable pin" data-id="samsung">
+        <a-sphere radius="0.08" color="#ff0055" position="0 0.2 0">
+           <a-animation attribute="scale" to="1.2 1.2 1.2" dur="800" dir="alternate" repeat="indefinite"></a-animation>
+        </a-sphere>
+        <a-cone radius-bottom="0.02" radius-top="0.08" height="0.2" color="#ff0055" position="0 0.1 0"></a-cone>
       </a-entity>
 
-      <a-entity position="0.3 0.1 0.1" class="clickable pin" data-id="nvidia">
-         <a-cone radius-bottom="0.01" radius-top="0.05" height="0.15" color="#00ff00" rotation="90 0 0"></a-cone>
-         <a-text value="Nvidia" align="center" position="0 -0.15 0.2" scale="0.5 0.5 0.5" color="white"></a-text>
+      <a-entity position="0.3 0.2 -0.1" class="clickable pin" data-id="nvidia">
+        <a-sphere radius="0.08" color="#00ff00" position="0 0.2 0"></a-sphere>
+        <a-cone radius-bottom="0.02" radius-top="0.08" height="0.2" color="#00ff00" position="0 0.1 0"></a-cone>
       </a-entity>
 
-      <a-entity position="0.1 -0.5 0.1" class="clickable pin" data-id="intel">
-         <a-cone radius-bottom="0.01" radius-top="0.05" height="0.15" color="#00aaff" rotation="90 0 0"></a-cone>
-         <a-text value="Intel" align="center" position="0 -0.15 0.2" scale="0.5 0.5 0.5" color="white"></a-text>
+      <a-entity position="0.1 0.2 0.5" class="clickable pin" data-id="intel">
+        <a-sphere radius="0.08" color="#00aaff" position="0 0.2 0"></a-sphere>
+        <a-cone radius-bottom="0.02" radius-top="0.08" height="0.2" color="#00aaff" position="0 0.1 0"></a-cone>
       </a-entity>
 
     </a-entity>
-
 
     <a-entity 
       camera 
       look-controls="enabled: false"
-      orbit-controls="target: 0 0.8 0; minDistance: 2; maxDistance: 5; initialPosition: 0 2.5 3.5; screenSpacePanning: true;">
+      orbit-controls="
+          target: 0 0.8 0; 
+          minDistance: 0.5; 
+          maxDistance: 10; 
+          initialPosition: 0 2.5 4; 
+          rotateSpeed: 0.5; 
+          zoomSpeed: 2.0; 
+          enableZoom: true; 
+          enablePan: true; 
+          screenSpacePanning: true;">
     </a-entity>
 
   </a-scene>
 
   <script>
-    // 生成木紋 (防止黑屏)
-    const ctx = document.getElementById('wood-tex').getContext('2d');
-    ctx.fillStyle = '#4e342e'; ctx.fillRect(0,0,512,512);
-    ctx.strokeStyle = '#3e2723'; ctx.lineWidth = 3;
-    for(let i=0;i<50;i++){ctx.beginPath();ctx.moveTo(0,Math.random()*512);ctx.bezierCurveTo(200,Math.random()*512,400,Math.random()*512,512,Math.random()*512);ctx.stroke();}
+    // 木紋生成
+    const c = document.getElementById('wood-tex');
+    const ctx = c.getContext('2d');
+    ctx.fillStyle='#3e2723'; ctx.fillRect(0,0,512,512);
+    ctx.strokeStyle='#2e1c18'; ctx.lineWidth=4;
+    for(let i=0;i<40;i++){ctx.beginPath();ctx.moveTo(0,Math.random()*512);ctx.bezierCurveTo(150,Math.random()*512,350,Math.random()*512,512,Math.random()*512);ctx.stroke();}
 
-    // 互動數據
-    const db = {
-      samsung: { title: "NORTH CLUSTER", body: "Location: <span class='highlight'>Bac Ninh</span><br>Focus: Mobile & R&D<br><br>三星於此建立全球最大研發中心，利用鄰近中國的地理優勢進行供應鏈整合。" },
-      nvidia: { title: "CENTRAL HUB", body: "Location: <span class='highlight'>Da Nang</span><br>Focus: AI Chip Design<br><br>Nvidia 與 FPT 合作，利用中部豐富的大學人才資源，打造 AI 晶片設計聚落。" },
-      intel: { title: "SOUTH CLUSTER", body: "Location: <span class='highlight'>Ho Chi Minh (SHTP)</span><br>Focus: Packaging (ATM)<br><br>Intel 最大的封測廠所在地，具備最成熟的物流與電力基礎設施。" }
+    // 互動邏輯
+    const flat = document.getElementById('step1-flat');
+    const ar = document.getElementById('step2-ar');
+    const card = document.getElementById('info-panel');
+    const nTitle = document.getElementById('node-title');
+    const nContent = document.getElementById('node-content');
+
+    window.activateAR = function() {
+      flat.setAttribute('visible', 'false');
+      ar.setAttribute('visible', 'true');
+      ar.setAttribute('animation', 'property: scale; to: 1 1 1; dur: 800; easing: easeOutBack');
     };
 
-    // 點擊事件
-    const card = document.getElementById('info-card');
+    const db = {
+      samsung: { title: "SAMSUNG (Bac Ninh)", body: "北越最大封測聚落。投資額 $19.2B，鄰近機場與中國邊境，具備供應鏈快速反應優勢。" },
+      nvidia: { title: "NVIDIA (Da Nang)", body: "中部 AI 設計中心。與 FPT 合作，利用當地豐富的大學人才資源進行晶片設計。" },
+      intel: { title: "INTEL (Ho Chi Minh)", body: "南越封測重鎮 (SHTP)。全球最大 ATM 廠，擁有越南最完善的工業基礎設施。" }
+    };
+
     document.querySelectorAll('.pin').forEach(p => {
       p.addEventListener('click', (e) => {
         e.stopPropagation();
         const d = db[p.getAttribute('data-id')];
-        document.getElementById('n-title').innerHTML = d.title;
-        document.getElementById('n-content').innerHTML = d.body;
+        nTitle.innerText = d.title;
+        nContent.innerHTML = d.body;
         card.classList.add('active');
       });
+      // 滑鼠懸停特效
+      p.addEventListener('mouseenter', function() { this.object3D.scale.set(1.3, 1.3, 1.3); });
+      p.addEventListener('mouseleave', function() { this.object3D.scale.set(1, 1, 1); });
     });
 
-    // 關閉卡片
     document.querySelector('a-scene').addEventListener('click', (e) => {
       if(!e.target.closest('.clickable')) card.classList.remove('active');
     });
