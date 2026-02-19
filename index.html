@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>VILL: V35 AI Expert Integration (Fixed)</title>
+  <title>VILL: V36 AI Expert Position & Interaction Fixed</title>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://unpkg.com/aframe-orbit-controls@1.3.0/dist/aframe-orbit-controls.min.js"></script>
 
@@ -16,7 +16,7 @@
     .subtitle { color: #fff; font-size: 14px; margin-left: 15px; opacity: 0.8; }
     .controls-hint { text-align: center; padding: 15px; background: linear-gradient(0deg, rgba(0,0,0,0.8), transparent); color: #ccc; font-size: 13px; text-shadow: 1px 1px 2px black; }
 
-    /* === [新增] AI 錄音控制面板 CSS === */
+    /* AI 錄音控制面板 CSS */
     #mic-ui {
       position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);
       background: rgba(0, 59, 70, 0.9); border: 2px solid #40E0D0; border-radius: 30px;
@@ -51,16 +51,13 @@
       init: function () {
         const el = this.el;
         const targetEl = this.data.target || el;
-
         const base = targetEl.getAttribute('scale') || { x: 1, y: 1, z: 1 };
         this.baseScale = { x: base.x, y: base.y, z: base.z };
-
         const over = {
           x: this.baseScale.x * this.data.overScale,
           y: this.baseScale.y * this.data.overScale,
           z: this.baseScale.z * this.data.overScale
         };
-
         const applyAnim = (to) => {
           targetEl.setAttribute('animation__hover', `
             property: scale;
@@ -69,7 +66,6 @@
             easing: easeOutQuad;
           `);
         };
-
         el.addEventListener('mouseenter', () => applyAnim(over));
         el.addEventListener('mouseleave', () => applyAnim(this.baseScale));
       }
@@ -113,11 +109,8 @@
 
     <a-sky color="#87CEEB"></a-sky>
 
-    <a-plane position="0 0 0" rotation="-90 0 0" width="20" height="20"
-             material="src: #tile-tex; roughness: 0.95; metalness: 0.0; repeat: 6 6"></a-plane>
-
-    <a-plane position="0 5 0" rotation="90 0 0" width="20" height="20"
-             material="src:#ceiling-tex; roughness: 0.9; repeat: 4 4"></a-plane>
+    <a-plane position="0 0 0" rotation="-90 0 0" width="20" height="20" material="src: #tile-tex; roughness: 0.95; metalness: 0.0; repeat: 6 6"></a-plane>
+    <a-plane position="0 5 0" rotation="90 0 0" width="20" height="20" material="src:#ceiling-tex; roughness: 0.9; repeat: 4 4"></a-plane>
 
     <a-box position="0 2.5 -6" width="20" height="5" depth="0.2" color="#fdf5e6" material="src:#wall-tex"></a-box>
     <a-box position="6 2.5 0" width="0.2" height="5" depth="20" color="#fdf5e6" material="src:#wall-tex"></a-box>
@@ -341,19 +334,22 @@
       </a-entity>
     </a-entity>
 
-    <a-entity id="ai-icon" position="0 1.6 -0.8" visible="false" scale="0 0 0" smart-label>
-       <a-octahedron radius="0.12" color="#40E0D0" material="emissive: #40E0D0; emissiveIntensity: 0.8; depthWrite: false" class="clickable" onclick="activateAI()">
+    <a-entity id="ai-icon" position="2.2 1.8 -0.5" visible="false" scale="0 0 0" smart-label>
+       <a-box class="clickable" width="0.8" height="0.8" depth="0.8" position="0 0 0" material="opacity: 0; transparent: true; depthWrite: false" onclick="activateAI(event)"></a-box>
+       
+       <a-octahedron radius="0.12" color="#40E0D0" material="emissive: #40E0D0; emissiveIntensity: 0.8; depthWrite: false">
          <a-animation attribute="rotation" to="0 360 0" dur="4000" repeat="indefinite" easing="linear"></a-animation>
          <a-animation attribute="position" dir="alternate" dur="1500" to="0 0.05 0" repeat="indefinite"></a-animation>
        </a-octahedron>
-       <a-text value="AI EXPERT" align="center" position="0 -0.20 0" scale="0.5 0.5 0.5" color="#40E0D0" font="roboto"></a-text>
-       <a-text value="(Click to Ask)" align="center" position="0 -0.32 0" scale="0.25 0.25 0.25" color="#aaa"></a-text>
+       
+       <a-text value="AI EXPERT" align="center" position="0 -0.25 0" scale="0.6 0.6 0.6" color="#40E0D0" font="roboto"></a-text>
+       <a-text value="(Click to Ask)" align="center" position="0 -0.40 0" scale="0.3 0.3 0.3" color="#aaa"></a-text>
     </a-entity>
 
-    <a-sphere id="ai-core" position="0 1.6 -0.8" radius="0.35" color="#40E0D0" 
+    <a-sphere id="ai-core" position="2.2 1.8 -0.5" radius="0.35" color="#40E0D0" 
               material="emissive: #40E0D0; emissiveIntensity: 0.6; transparent: true; opacity: 0.9" 
               visible="false" scale="0 0 0" wireframe="true">
-       <a-animation attribute="position" dir="alternate" dur="2000" to="0 1.7 -0.8" repeat="indefinite" easing="easeInOutSine"></a-animation>
+       <a-animation attribute="position" dir="alternate" dur="2000" to="2.2 1.9 -0.5" repeat="indefinite" easing="easeInOutSine"></a-animation>
        <a-animation attribute="rotation" to="0 360 0" dur="10000" repeat="indefinite" easing="linear"></a-animation>
     </a-sphere>
 
@@ -363,7 +359,7 @@
   </a-scene>
 
   <script>
-    // ===== 既有環境材質生成 =====
+    // ===== 既有環境材質生成 (完全保留) =====
     const c1 = document.getElementById('wood-tex').getContext('2d');
     c1.fillStyle = '#6d4c41'; c1.fillRect(0,0,512,512); c1.strokeStyle = '#4e342e'; c1.lineWidth = 3;
     for(let i=0;i<60;i++){c1.beginPath();c1.moveTo(0,Math.random()*512);c1.bezierCurveTo(150,Math.random()*512,350,Math.random()*512,512,Math.random()*512);c1.stroke();}
@@ -429,7 +425,7 @@
         card.setAttribute('visible', 'true');
         card.setAttribute('animation', 'property: scale; to: 1 1 1; dur: 500; easing: easeOutBack');
         
-        // 顯示 AI 小圖示
+        // 顯示 AI 小圖示 (重置狀態)
         aiCore.setAttribute('visible', 'false');
         aiCore.setAttribute('scale', '0 0 0');
         micUI.style.display = 'none';
@@ -438,8 +434,10 @@
       }
     };
 
-    // === [新增] AI 核心邏輯 ===
-    window.activateAI = function() {
+    // === [修復] 確保點擊事件不被卡片攔截 ===
+    window.activateAI = function(event) {
+      if(event) event.stopPropagation(); // 防止點擊穿透到後方的關閉面板
+      
       // 隱藏小圖示
       aiIcon.setAttribute('scale', '0 0 0');
       aiIcon.setAttribute('visible', 'false');
