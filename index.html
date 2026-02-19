@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>VILL: V36 AI Expert Position & Interaction Fixed</title>
+  <title>VILL: V37 AI Expert Perfected</title>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://unpkg.com/aframe-orbit-controls@1.3.0/dist/aframe-orbit-controls.min.js"></script>
 
@@ -334,23 +334,21 @@
       </a-entity>
     </a-entity>
 
-    <a-entity id="ai-icon" position="2.2 1.8 -0.5" visible="false" scale="0 0 0" smart-label>
-       <a-box class="clickable" width="0.8" height="0.8" depth="0.8" position="0 0 0" material="opacity: 0; transparent: true; depthWrite: false" onclick="activateAI(event)"></a-box>
+    <a-entity id="ai-icon" position="0 2.2 0.6" visible="false" scale="0 0 0" smart-label>
+       <a-box class="clickable" width="1.0" height="1.0" depth="0.2" position="0 0 0.1" material="opacity: 0; transparent: true; depthWrite: false" onclick="activateAI(event)"></a-box>
        
-       <a-octahedron radius="0.12" color="#40E0D0" material="emissive: #40E0D0; emissiveIntensity: 0.8; depthWrite: false">
-         <a-animation attribute="rotation" to="0 360 0" dur="4000" repeat="indefinite" easing="linear"></a-animation>
+       <a-sphere radius="0.12" color="#40E0D0" material="emissive: #40E0D0; emissiveIntensity: 0.8; transparent: true; opacity: 0.95">
          <a-animation attribute="position" dir="alternate" dur="1500" to="0 0.05 0" repeat="indefinite"></a-animation>
-       </a-octahedron>
+       </a-sphere>
        
        <a-text value="AI EXPERT" align="center" position="0 -0.25 0" scale="0.6 0.6 0.6" color="#40E0D0" font="roboto"></a-text>
        <a-text value="(Click to Ask)" align="center" position="0 -0.40 0" scale="0.3 0.3 0.3" color="#aaa"></a-text>
     </a-entity>
 
-    <a-sphere id="ai-core" position="2.2 1.8 -0.5" radius="0.35" color="#40E0D0" 
-              material="emissive: #40E0D0; emissiveIntensity: 0.6; transparent: true; opacity: 0.9" 
-              visible="false" scale="0 0 0" wireframe="true">
-       <a-animation attribute="position" dir="alternate" dur="2000" to="2.2 1.9 -0.5" repeat="indefinite" easing="easeInOutSine"></a-animation>
-       <a-animation attribute="rotation" to="0 360 0" dur="10000" repeat="indefinite" easing="linear"></a-animation>
+    <a-sphere id="ai-core" position="0 2.2 0.6" radius="0.35" color="#40E0D0" 
+              material="emissive: #40E0D0; emissiveIntensity: 0.7; transparent: true; opacity: 0.98" 
+              visible="false" scale="0 0 0">
+       <a-animation attribute="position" dir="alternate" dur="2000" to="0 2.3 0.6" repeat="indefinite" easing="easeInOutSine"></a-animation>
     </a-sphere>
 
     <a-entity camera look-controls="enabled: false"
@@ -359,7 +357,7 @@
   </a-scene>
 
   <script>
-    // ===== 既有環境材質生成 (完全保留) =====
+    // 環境材質生成保持不變
     const c1 = document.getElementById('wood-tex').getContext('2d');
     c1.fillStyle = '#6d4c41'; c1.fillRect(0,0,512,512); c1.strokeStyle = '#4e342e'; c1.lineWidth = 3;
     for(let i=0;i<60;i++){c1.beginPath();c1.moveTo(0,Math.random()*512);c1.bezierCurveTo(150,Math.random()*512,350,Math.random()*512,512,Math.random()*512);c1.stroke();}
@@ -386,7 +384,6 @@
     const s = document.getElementById('shelf-tex').getContext('2d'); s.fillStyle = '#3e2723'; s.fillRect(0,0,512,512); s.fillStyle = 'rgba(255,255,255,0.08)'; for(let i=0;i<70;i++){ s.fillRect(Math.random()*512, Math.random()*512, 60, 4); } s.strokeStyle = 'rgba(0,0,0,0.35)'; s.lineWidth = 8; s.strokeRect(20,20,472,472);
     const d = document.getElementById('door-tex').getContext('2d'); d.fillStyle = '#6d4c41'; d.fillRect(0,0,512,512); d.fillStyle = 'rgba(0,0,0,0.15)'; d.fillRect(55,40,402,432); d.strokeStyle = 'rgba(255,255,255,0.18)'; d.lineWidth = 6; d.strokeRect(55,40,402,432);
 
-    // ===== 互動邏輯 =====
     const flat = document.getElementById('step1-flat');
     const ar = document.getElementById('step2-ar');
     const aiIcon = document.getElementById('ai-icon');
@@ -403,7 +400,6 @@
       const card = document.getElementById(id);
       const isVisible = card.getAttribute('visible');
       if (isVisible) {
-        // 關閉卡片與 AI
         card.setAttribute('animation', 'property: scale; to: 0 0 0; dur: 300; easing: easeInBack');
         aiIcon.setAttribute('animation', 'property: scale; to: 0 0 0; dur: 300');
         aiCore.setAttribute('animation', 'property: scale; to: 0 0 0; dur: 300');
@@ -414,18 +410,16 @@
           micUI.style.display = 'none';
         }, 300);
       } else {
-        // 關閉其他卡片
         document.querySelectorAll('[id^="card-"]').forEach(c => {
           if (c.getAttribute('visible')) {
             c.setAttribute('visible', 'false');
             c.setAttribute('scale', '0 0 0');
           }
         });
-        // 開啟當前卡片
         card.setAttribute('visible', 'true');
         card.setAttribute('animation', 'property: scale; to: 1 1 1; dur: 500; easing: easeOutBack');
         
-        // 顯示 AI 小圖示 (重置狀態)
+        // 顯示 AI 標誌
         aiCore.setAttribute('visible', 'false');
         aiCore.setAttribute('scale', '0 0 0');
         micUI.style.display = 'none';
@@ -434,30 +428,29 @@
       }
     };
 
-    // === [修復] 確保點擊事件不被卡片攔截 ===
+    // 確保點擊不被卡片擋住
     window.activateAI = function(event) {
-      if(event) event.stopPropagation(); // 防止點擊穿透到後方的關閉面板
-      
-      // 隱藏小圖示
+      if(event) event.stopPropagation(); 
       aiIcon.setAttribute('scale', '0 0 0');
       aiIcon.setAttribute('visible', 'false');
       
-      // 召喚大光球
       aiCore.setAttribute('visible', 'true');
       aiCore.setAttribute('animation__spawn', 'property: scale; to: 1 1 1; dur: 800; easing: easeOutElastic');
-      
-      // 顯示錄音介面
       micUI.style.display = 'flex';
     };
 
-    // 控制光球縮放動畫
+    // [修復] 強制刷新動畫屬性，確保球體一定會根據聲音縮放
     function setAIPulsing(active, speed = 800, maxScale = 1.3) {
-      if(active) {
-        aiCore.setAttribute('animation__pulse', `property: scale; from: 1 1 1; to: ${maxScale} ${maxScale} ${maxScale}; dur: ${speed}; dir: alternate; repeat: indefinite; easing: easeInOutSine`);
-      } else {
-        aiCore.removeAttribute('animation__pulse');
-        aiCore.setAttribute('scale', '1 1 1');
-      }
+      aiCore.removeAttribute('animation__pulse');
+      aiCore.removeAttribute('animation__spawn'); // 避免舊動畫干擾
+      
+      setTimeout(() => {
+        if(active) {
+          aiCore.setAttribute('animation__pulse', `property: scale; from: 1 1 1; to: ${maxScale} ${maxScale} ${maxScale}; dur: ${speed}; dir: alternate; loop: true; easing: easeInOutSine`);
+        } else {
+          aiCore.setAttribute('scale', '1 1 1');
+        }
+      }, 20); // 給瀏覽器極短的時間重置 DOM
     }
 
     window.startRecording = function() {
@@ -472,26 +465,27 @@
       document.getElementById('btn-record').style.display = 'inline-block';
       setAIPulsing(false);
 
-      // 模擬 AI 思考 1 秒後開始講話
       setTimeout(() => {
         speakAI("我已接收到您的語音。關於這個區域的供應鏈，主要是基於『中國加一』戰略，與在地基礎設施的綜合考量。請問您需要更深入的風險評估分析嗎？");
       }, 1000);
     };
 
-    // 語音合成 (TTS)
     function speakAI(text) {
       if ('speechSynthesis' in window) {
         const synth = window.speechSynthesis;
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'zh-TW';
         
+        // 為了防呆，確保發音前一定有設定動畫
+        setAIPulsing(true, 150, 1.25);
+        
         utterance.onstart = function() {
-          // 講話時：快速跳動感
+          // 語音開始：快速跳動感
           setAIPulsing(true, 150, 1.25);
         };
         
         utterance.onend = function() {
-          // 講話結束：恢復平靜
+          // 語音結束：恢復平靜
           setAIPulsing(false);
         };
 
